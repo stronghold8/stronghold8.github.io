@@ -116,4 +116,62 @@ const nav = document.querySelector(".nav"), //1. 클래스 nav로 접근
 
 
 
-/* ============================================== hash reset ============================================== */
+/* ============================================== 개인 로그  ============================================== */
+
+async function loadExperience() {
+    try {
+      const response = await fetch('json/log.json'); // JSON 파일 경로
+      const data = await response.json();
+  
+      // 기존 타임라인의 shadow-dark 내부에 새 항목 추가
+      const experienceTimeline = document.querySelector('.experience .timeline.shadow-dark');
+      
+      data.experience.forEach(item => {
+        const newItem = `
+          <div class="timeline-item">
+            <div class="circle-dot"></div>
+            <h3 class="timeline-date"><i class="fa fa-calendar"></i> ${item.date}</h3>
+            <h4 class="timeline-title">${item.title}</h4>
+            <p class="timeline-text">${item.text}</p>
+          </div>
+        `;
+        experienceTimeline.innerHTML += newItem; // 새로운 항목 추가
+      });
+    } catch (error) {
+      console.error('JSON 데이터를 로드하는 중 오류 발생:', error);
+    }
+  }
+  
+  // 페이지 로드 시 실행
+  document.addEventListener('DOMContentLoaded', loadExperience);
+  
+
+
+/* ============================================== 연혁  ============================================== */
+
+async function loadEducation() {
+    try {
+      const response = await fetch('json/timeline.json'); // JSON 파일 경로
+      const data = await response.json();
+  
+      // 기존 타임라인의 shadow-dark 내부에 새 항목 추가
+      const educationTimeline = document.querySelector('.education .timeline.shadow-dark');
+      
+      data.education.forEach(item => {
+        const newItem = `
+          <div class="timeline-item">
+            <div class="circle-dot"></div>
+            <h3 class="timeline-date"><i class="fa fa-calendar"></i> ${item.date}</h3>
+            <h4 class="timeline-title">${item.title}</h4>
+            <p class="timeline-text">${item.text}</p>
+          </div>
+        `;
+        educationTimeline.innerHTML += newItem; // 새로운 항목 추가
+      });
+    } catch (error) {
+      console.error('JSON 데이터를 로드하는 중 오류 발생:', error);
+    }
+  }
+  
+  // 페이지 로드 시 실행
+  document.addEventListener('DOMContentLoaded', loadEducation);
