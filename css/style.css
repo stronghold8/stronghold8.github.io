@@ -324,9 +324,34 @@ section.home{z-index:1;}
 }
 .custom-text
 {
-    color: var(--skin-color);
-    font-weight: bold;
+    position: relative;
+    transform: skew(var(--skew)) scale(var(--scale));
 }
+.custom-text::before, .custom-text::after
+{
+    content: attr(data-text);
+    position: absolute;
+    width: 100%;
+    transition: clip-path 50ms ease-in;
+    background-color: var(--bg-black-900);
+}
+.custom-text::before
+{
+    left: 5px;
+    text-shadow: 1px -1px #2a96d4;
+    clip-path: polygon(
+        0 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
+    );
+}
+.custom-text::after
+{
+    left: -5px;
+    text-shadow: 1px -1px #cc2a1f;
+    clip-path: polygon(
+        0 var(--t2), 100% var(--t2), 100% var(--b2), 0 var(--b2)
+    );
+}
+
 h3.hello
 {
     font-size: 28px;
