@@ -326,6 +326,7 @@ section.home{z-index:1;}
 {
     display: inline-block;
     position: relative;
+    font-size: 20px;
     transform: skew(var(--skew)) scale(var(--scale));
 }
 .custom-text::after, 
