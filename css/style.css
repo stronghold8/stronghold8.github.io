@@ -324,10 +324,12 @@ section.home{z-index:1;}
 }
 .custom-text
 {
+    display: inline-block;
     position: relative;
     transform: skew(var(--skew)) scale(var(--scale));
 }
-.custom-text::before, .custom-text::after
+.custom-text::after, 
+.custom-text::before
 {
     content: attr(data-text);
     position: absolute;
@@ -339,17 +341,13 @@ section.home{z-index:1;}
 {
     left: 5px;
     text-shadow: 1px -1px #2a96d4;
-    clip-path: polygon(
-        0 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
-    );
+    clip-path: polygon(0 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1));
 }
 .custom-text::after
 {
     left: -5px;
-    text-shadow: 1px -1px #cc2a1f;
-    clip-path: polygon(
-        0 var(--t2), 100% var(--t2), 100% var(--b2), 0 var(--b2)
-    );
+    text-shadow: -1px 1px #cc2a1f;
+    clip-path: polygon(0 var(--t2), 100% var(--t2), 100% var(--b2), 0 var(--b2));
 }
 
 h3.hello
