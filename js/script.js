@@ -213,3 +213,28 @@ async function loadEducation() {
 
   const h1 = document.querySelector('.custom-text')
   glitch(h1)
+
+
+/* ============================================== 컨텐츠 로고 로딩  ============================================== */
+// SVG 파일 경로 배열
+const svgPaths = [
+  './images/contents-logo/logo-electron-svgrepo-com-white.svg'
+  ,'./images/contents-logo/minecraft.svg'
+  ,'./images/contents-logo/hierarchy_structure_tu8sd6g9l8t9.svg'
+];
+
+// HTML 컨테이너 ID 배열
+const containerIds = ['svg-icon-1', 'svg-icon-2','svg-icon-3'];
+
+// SVG 파일을 각 컨테이너에 삽입
+svgPaths.forEach((path, index) => {
+  const containerId = containerIds[index];
+  const container = document.getElementById(containerId);
+
+  fetch(path)
+      .then(response => response.text())
+      .then(svg => {
+          container.innerHTML = svg; // SVG 삽입
+      })
+      .catch(error => console.error(`SVG 로드 실패 (${path}):`, error));
+});
