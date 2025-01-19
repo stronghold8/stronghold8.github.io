@@ -689,6 +689,8 @@ h3.my-profession
     color: var(--text-black-900);
     font-weight: 700;
     text-transform: capitalize;
+    text-transform: none;
+    font-feature-settings: "liga" 0;
 }
 .service .service-item .service-item-inner p
 {
