@@ -4,7 +4,12 @@
         "date": "2025-01-17",
         "title": "JSON 기반 데이터 관리 시스템 구현",
         "text": "로그를 html에 하드코딩하는 방식에서 json으로 동적 관리하는 시스템으로 구축"
-      }      
+      },
+      {
+        "date": "2025-01-19",
+        "title": "SVG 코드 파일 적용 완료",
+        "text": "Special thanks to <a href='https://github.com/nbelyh' class='highlighted-link' target='_blank'>Nikolay Belykh</a>'s <a href='https://github.com/nbelyh/editsvgcode' class='highlighted-link' target='_blank'>\"editsvgcode\"</a> and <a href='https://icon666.com/collection/data_analytics_njqpo4fg8' class='highlighted-link' target='_blank'>icon666</a>"
+      }   
     ]
   }
   

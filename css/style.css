@@ -892,3 +892,9 @@ h3.my-profession
         max-width: 100%;
     }
 }
+.highlighted-link
+{
+    color: green; /* 링크를 초록색으로 */
+    font-weight: bold; /* 굵게 표시 */
+    text-decoration: underline;
+}
