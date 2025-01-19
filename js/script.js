@@ -216,12 +216,8 @@ async function loadEducation() {
 
 
 /* ============================================== 컨텐츠 로고 로딩  ============================================== */
-// SVG 파일 경로 배열
-const svgPaths = [
-  './images/contents-logo/logo-electron-svgrepo-com-white.svg'
-  ,'./images/contents-logo/minecraft.svg'
-  ,'./images/contents-logo/hierarchy_structure_tu8sd6g9l8t9.svg'
-];
+
+
 const svgCodes = [
   //1 AI 이미지
   `<svg id="Layer_5" enable-background="new 0 0 64 64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -555,26 +551,11 @@ c301 44 402 91 402 190 0 106 -36 119 -44 17 -6 -80 -10 -85 -96 -111 -477
 `
 
 
-
 ];
 
-// HTML 컨테이너 ID 배열
-const containerIds = ['svg-icon-1', 'svg-icon-2','svg-icon-3'];
+
 //코드 방식
 const codeContainerIds = ['icon_code-1', "icon_code-2", "icon_code-3", "icon_code-4", "icon_code-5", "icon_code-6"];
-
-// SVG 파일을 각 컨테이너에 삽입
-svgPaths.forEach((path, index) => {
-  const containerId = containerIds[index];
-  const container = document.getElementById(containerId);
-
-  fetch(path)
-      .then(response => response.text())
-      .then(svg => {
-          container.innerHTML = svg; // SVG 삽입
-      })
-      .catch(error => console.error(`SVG 로드 실패 (${path}):`, error));
-});
 
 // SVG 코드 삽입
 codeContainerIds.forEach((id, index) => {
