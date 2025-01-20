@@ -221,8 +221,11 @@ async function loadEducation() {
 const svgCodes = [
   //1 AI 이미지
   `<svg id="Layer_5" enable-background="new 0 0 64 64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="32.07" x2="32.07" y1="63" y2="1"><stop offset="0" stop-color="#9f2fff"/><stop offset="1" 
-  stop-color="#0bb1d3"/></linearGradient><path d="m8.673 45.453c.236 2.592 2.376 4.547 4.98 4.547h5.347v2.279l-6.573 2.191c-3.246 1.082-5.427 4.108-5.427 7.53v1h46.443l
+  <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="32.07" x2="32.07" y1="63" y2="1">
+  <stop offset="0" stop-color="#9f2fff"/>
+  <stop offset="1"  stop-color="#0bb1d3"/>
+  </linearGradient>
+  <path d="m8.673 45.453c.236 2.592 2.376 4.547 4.98 4.547h5.347v2.279l-6.573 2.191c-3.246 1.082-5.427 4.108-5.427 7.53v1h46.443l
   -.697-1.86c-1.709-4.555-5.95-7.71-10.746-8.098v-4.762c3.756-6.138 9.536-10.865 16.344-13.34l.795-.291-2.312-12.327c-2.316-12.355-13.12-21.322-25.689-21.322-14.413 0-26.138 
   11.725-26.138 26.138v10.583l3.063 1.021zm.411 15.547c.363-2.134 1.87-3.93 3.976-4.632l7.94-2.647v-3.721h2c.092 0 .182-.014.274-.016l1.901 5.701 5.352 2.974c-.481.728-.895 
   1.509-1.218 2.341zm41.43 0h-19.028c1.735-3.623 5.451-6 9.514-6s7.779 2.377 9.514 6zm-9.713-14.515-6.514-5.791c3.856-1.015 6.713-4.523 6.713-8.694 0-1.053-.191-2.06-.525-3h15.57l.818 
@@ -233,9 +236,11 @@ const svgCodes = [
 
   //2 자료구조, 알고리즘
   `<svg id="Layer_5" enable-background="new 0 0 64 64" viewBox="0 0 64 64" xmlns=
-  "http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="SVGID_1_" 
-  gradientUnits="userSpaceOnUse" x1="32" x2="32" y1="63" y2="1"><stop offset="0" stop-color="#9f2fff"/>
-  <stop offset="1" stop-color="#0bb1d3"/></linearGradient><path d="m13 7c-3.309 0-6 2.691-6 6s2.691 6 6 6 
+  "http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="32" x2="32" y1="63" y2="1">
+  <stop offset="0" stop-color="#9f2fff"/>
+  <stop offset="1" stop-color="#0bb1d3"/>
+  </linearGradient><path d="m13 7c-3.309 0-6 2.691-6 6s2.691 6 6 6 
   6-2.691 6-6-2.691-6-6-6zm0 10c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4zm20-3h-2v-2h2zm2-2h6v2h-6zm-4 
   4h10v2h-10zm-18 33h-8v6h8zm-2 4h-4v-2h4zm4-4h6v2h-6zm0 4h6v2h-6zm-10 4h16v2h-16zm55-22h-16c-1.654 0-3 1.346-3 3v7h-4v-9.142c1.72-.447 
   3-1.999 3-3.858 0-1.858-1.28-3.411-3-3.858v-6.142h5c1.654 0 3-1.346 3-3v-5h4.09c.478 2.833 2.942 5 5.91 5 3.309 0 6-2.691 6-6 0-1.035-.263-2.009-.726-2.86l2.433-2.433-1.414-1.414-2.269 
@@ -561,6 +566,6 @@ const codeContainerIds = ['icon_code-1', "icon_code-2", "icon_code-3", "icon_cod
 codeContainerIds.forEach((id, index) => {
   const container = document.getElementById(id);
   if (container && index < svgCodes.length) {
-    container.innerHTML = svgCodes[index]; // 코드 삽입
+    container.innerHTML = svgCodes[index]; // 코드 삽입    
   }
 });
