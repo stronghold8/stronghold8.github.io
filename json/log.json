@@ -9,6 +9,11 @@
         "date": "2025-01-19",
         "title": "SVG 코드 파일 적용 완료",
         "text": "Special thanks to <a href='https://github.com/nbelyh' class='highlighted-link' target='_blank'>Nikolay Belykh</a>'s <a href='https://github.com/nbelyh/editsvgcode' class='highlighted-link' target='_blank'>\"editsvgcode\"</a> and <a href='https://icon666.com/collection/data_analytics_njqpo4fg8' class='highlighted-link' target='_blank'>icon666</a>"
+      },
+      {
+        "date": "2025-01-21",
+        "title": "utteranc.es를 사용한 댓글 기능 추가",
+        "text": "Contact 섹션에 적용 완료"
       }   
     ]
   }
