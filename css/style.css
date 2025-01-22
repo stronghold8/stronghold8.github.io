@@ -900,3 +900,18 @@ h3.my-profession
     font-weight: bold; /* 굵게 표시 */
     text-decoration: underline;
 }
+/* comment */
+.comment-title
+{
+    color: var(--skin-color);
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+.comment-sub-title
+{
+    color: var(--text-black-900);
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 60px;
+}
