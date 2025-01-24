@@ -472,6 +472,8 @@ h3.my-profession
     color: var(--text-black-700);
     margin-left: 4px;
     display: inline-block;
+    flex-wrap: wrap;
+    
 }
 .about .about-content .personal-info .buttons
 {
@@ -894,6 +896,14 @@ h3.my-profession
         max-width: 100%;
     }
 }
+@media (max-width:489px)
+{
+    .about .about-content .personal-info .info-item p span
+    {
+        flex: 1 1 100%;
+    }
+}
+
 .highlighted-link
 {
     color: green; /* 링크를 초록색으로 */

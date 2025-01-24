@@ -13,8 +13,13 @@
       {
         "date": "2025-01-21",
         "title": "utteranc.es를 사용한 댓글 기능 추가",
-        "text": "Contact 섹션에 적용 완료"
-      }   
+        "text": "Special thanks to <a href='utteranc.es' class='highlighted-link' target='_blank'>Utterances</a>"
+      },
+      {
+        "date": "2025-01-25",
+        "title": "STRONGHOLD 각 섹션 동적 관리 시스템 구현",
+        "text": "NodeList로 반환된 nav와 section 클래스들을 함수로 동기화하는 방식에서 data- 속성을 활용, 명시적으로 연결하는 방식으로 변경"
+      }  
     ]
   }
   
