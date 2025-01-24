@@ -6,76 +6,70 @@ var typed = new Typed(".typing",{
     loop:true
 })
 /* ============================================== Aside ============================================== */
-const nav = document.querySelector(".nav"),
-  navList = nav.querySelectorAll("li"),
-  allSection = document.querySelectorAll(".section");
-
-// 메뉴 클릭 이벤트 등록
-for (let i = 0; i < navList.length; i++) {
-  const a = navList[i].querySelector("a");
-  a.addEventListener("click", function (e) {
-    e.preventDefault(); // 기본 동작 방지
-    if (this.classList.contains("active")) return;
-
-    // 이전 섹션에 back-section 클래스 추가
-    for (let j = 0; j < navList.length; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {
-        const activeTarget = navList[j].querySelector("a").getAttribute("data-target");
-        updateBackSection(activeTarget); // 이전 섹션에만 back-section 추가
-      }
-      navList[j].querySelector("a").classList.remove("active");
+const nav = document.querySelector(".nav"), //1. 클래스 nav로 접근
+    navList = nav.querySelectorAll("li"),   //2. nav클래스 안의 li 클래스를 모두 NodeList로 반환
+    totalNavList = navList.length,  //3. li클래스들이 있는 NodeList의 요소 개수로 totalNavList 확인
+    allSection = document.querySelectorAll(".section"), //4. section클래스를 모두 NodeList로 반환
+        /*allSection은 모든 섹션을 NodeList화한다. li클래스랑은 별개로 움직인다. 
+        ==> (2,3)이 시점에서 li 클래스와 section 클래스의 순서는 완전히 일치해야 한다. */
+    totalSection = allSection.length;
+    for(let i = 0; i<totalNavList; i++)
+    {
+        const a = navList[i].querySelector("a");
+        a.addEventListener("click", function()
+        {
+            if (this.classList.contains("active")) return;
+            removeBackSection();
+            for(let j = 0; j<totalNavList; j++)
+            {
+                if(navList[j].querySelector("a").classList.contains("active"))
+                {
+                    addBackSection(j);
+                    //allSection[j].classList.add("back-section")
+                }
+                navList[j].querySelector("a").classList.remove("active");
+            }
+            this.classList.add("active")
+            showSection(this);
+            if(window.innerWidth < 1200)
+            {
+                asideSectionTogglerBtn();
+            }
+        })
     }
-
-    // 현재 클릭한 메뉴 활성화
-    this.classList.add("active");
-    showSection(this); // 새로운 섹션 활성화
-
-    // 반응형에서 aside 토글 버튼 처리 (옵션)
-    if (window.innerWidth < 1200) {
-      asideSectionTogglerBtn();
+    function removeBackSection()
+    {
+        for(let i = 0; i<totalSection; i++)
+            {
+                allSection[i].classList.remove("back-section");
+            }
     }
-  });
-}
-
-// back-section 업데이트 함수 (항상 하나만 유지)
-function updateBackSection(targetId) {
-  // 모든 섹션에서 back-section 제거
-  allSection.forEach(section => section.classList.remove("back-section"));
-
-  // 새롭게 지정된 섹션에 back-section 추가
-  const section = document.getElementById(targetId);
-  if (section) section.classList.add("back-section");
-}
-
-// 섹션 표시 함수
-function showSection(element) {
-  const targetId = element.getAttribute("data-target"); // data-target으로 대상 식별
-
-  // 모든 섹션 비활성화
-  allSection.forEach(section => section.classList.remove("active"));
-
-  // 대상 섹션 활성화
-  const targetSection = document.getElementById(targetId);
-  if (targetSection) targetSection.classList.add("active");
-
-  // URL 해시 업데이트
-  history.pushState(null, null, `#${targetId}`);
-}
-
-// Nav 업데이트 함수 (선택적으로 사용 가능)
-function updateNav(element) {
-  const targetId = element.getAttribute("data-target");
-  navList.forEach(navItem => {
-    const a = navItem.querySelector("a");
-    a.classList.toggle(
-      "active",
-      a.getAttribute("data-target") === targetId
-    );
-  });
-}
-
-
-
+    function addBackSection(num)
+    {
+        allSection[num].classList.add("back-section");
+    }
+    function showSection(element)
+    {
+        for(let i = 0; i<totalSection; i++)
+        {
+            allSection[i].classList.remove("active");
+        }
+        const target = element.getAttribute("href").split("#")[1];
+        document.querySelector("#" + target).classList.add("active");
+        history.pushState(null, null, "#" + target); // URL 해시 업데이트
+    }
+    function updateNav(element)
+    {
+        for(let i=0; i<totalNavList; i++)
+        {
+            navList[i].querySelector("a").classList.remove("active");
+            const target = element.getAttribute("href").split("#")[1];
+            if(target === navList[i].querySelector("a").getAttribute("href").split("#")[1])
+            {
+                navList[i].querySelector("a").classList.add("active");
+            }
+        }
+    }
     document.querySelector(".hire-me").addEventListener("click", function()
     {
         const sectionIndex = this.getAttribute("data-section-index");
@@ -151,33 +145,6 @@ async function loadExperience() {
   // 페이지 로드 시 실행
   document.addEventListener('DOMContentLoaded', loadExperience);
   
-
-  // 초기화 함수: 첫 로딩 시 home 활성화
-function initializeActiveSection() {
-  const defaultSectionId = "home"; // 초기 활성화할 섹션 ID
-  const defaultNav = document.querySelector(`a[data-target="${defaultSectionId}"]`);
-
-  // 모든 섹션 초기화
-  allSection.forEach(section => {
-    section.classList.remove("active", "back-section");
-  });
-
-  // 모든 네비게이션 항목 초기화
-  navList.forEach(navItem => {
-    navItem.querySelector("a").classList.remove("active");
-  });
-
-  // home 섹션과 관련 네비게이션 항목 활성화
-  if (defaultNav) {
-    defaultNav.classList.add("active");
-    const defaultSection = document.getElementById(defaultSectionId);
-    if (defaultSection) defaultSection.classList.add("active");
-  }
-}
-
-// 페이지 로드 시 초기화
-window.addEventListener("DOMContentLoaded", initializeActiveSection);
-
 
 
 /* ============================================== 연혁  ============================================== */
@@ -591,8 +558,7 @@ c301 44 402 91 402 190 0 106 -36 119 -44 17 -6 -80 -10 -85 -96 -111 -477
 </svg>`,
 
   //8 math
-  `<!-- icon666.com - MILLIONS OF FREE VECTOR ICONS --><svg id="_x33_0" enable-background="new 0 0 64 64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="32" x2="32" y1="63" y2="1"><stop offset="0" stop-color="#9f2fff"/><stop offset="1" stop-color="#0bb1d3"/></linearGradient><path d="m39 19h-6v-6h4v-2h-4v-2h6v6h-4v2h4zm12-10h-6v2h4v2h-4v2h4v2h-4v2h6zm-24 0h-2v10h2zm36 34c0 2.206-1.794 4-4 4h-12.196l10.001 16h-8.359l-3.75-6h-17.392l-3.75 6h-8.359l10.001-16h-10.196v3.2l-4.692 11.262c-.391.934-1.296 1.538-2.308 1.538s-1.917-.604-2.308-1.537l-4.692-11.263v-42.2c0-3.86 3.141-7 7-7 2.785 0 5.188 1.639 6.315 4h46.685v34.556c1.19.694 2 1.97 2 3.444zm-48.08-36c.047.328.08.66.08 1v31h44v-32zm-9.753 48h5.667l1.667-4h-9zm7.833-42h-10v2h10zm-10 4v32h4v-32zm10 32v-32h-4v32zm-10-41v3h10v-3c0-2.757-2.243-5-5-5s-5 2.243-5 5zm7 49h-4l1.538 3.692c.156.373.768.374.924-.001zm21.196-10h-3.642l-8.749 14h3.641zm2.358 0-2.5 4h9.892l-2.5-4zm9.892 8-1.25-2h-12.392l-1.25 2zm1-8h-3.642l8.751 14h3.641zm16.554-4c0-1.103-.897-2-2-2h-44v4h44c1.103 0 2-.897 2-2zm-4-8h-2v2h2zm-4 2h-36v-24h2v14l7-5.25 8.134 6.1 16.866-7.379v14.529h2zm-4-13.471-6 2.625v8.846h6zm-22 11.471h6v-5.5l-6-4.5zm8 0h6v-7.971l-6 2.625zm-16 0h6v-10l-6 4.5zm0-26h-2v2h2z" fill="url(#SVGID_1_)"/>
-  </svg>`
+  `<!-- icon666.com - MILLIONS OF FREE VECTOR ICONS --><svg id="_x33_0" enable-background="new 0 0 64 64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="32" x2="32" y1="63" y2="1"><stop offset="0" stop-color="#9f2fff"/><stop offset="1" stop-color="#0bb1d3"/></linearGradient><path d="m39 19h-6v-6h4v-2h-4v-2h6v6h-4v2h4zm12-10h-6v2h4v2h-4v2h4v2h-4v2h6zm-24 0h-2v10h2zm36 34c0 2.206-1.794 4-4 4h-12.196l10.001 16h-8.359l-3.75-6h-17.392l-3.75 6h-8.359l10.001-16h-10.196v3.2l-4.692 11.262c-.391.934-1.296 1.538-2.308 1.538s-1.917-.604-2.308-1.537l-4.692-11.263v-42.2c0-3.86 3.141-7 7-7 2.785 0 5.188 1.639 6.315 4h46.685v34.556c1.19.694 2 1.97 2 3.444zm-48.08-36c.047.328.08.66.08 1v31h44v-32zm-9.753 48h5.667l1.667-4h-9zm7.833-42h-10v2h10zm-10 4v32h4v-32zm10 32v-32h-4v32zm-10-41v3h10v-3c0-2.757-2.243-5-5-5s-5 2.243-5 5zm7 49h-4l1.538 3.692c.156.373.768.374.924-.001zm21.196-10h-3.642l-8.749 14h3.641zm2.358 0-2.5 4h9.892l-2.5-4zm9.892 8-1.25-2h-12.392l-1.25 2zm1-8h-3.642l8.751 14h3.641zm16.554-4c0-1.103-.897-2-2-2h-44v4h44c1.103 0 2-.897 2-2zm-4-8h-2v2h2zm-4 2h-36v-24h2v14l7-5.25 8.134 6.1 16.866-7.379v14.529h2zm-4-13.471-6 2.625v8.846h6zm-22 11.471h6v-5.5l-6-4.5zm8 0h6v-7.971l-6 2.625zm-16 0h6v-10l-6 4.5zm0-26h-2v2h2z" fill="url(#SVGID_1_)"/></svg>`
 
 
 ];
