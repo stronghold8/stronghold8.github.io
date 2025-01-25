@@ -76,18 +76,77 @@ function updateNav(element) {
 
 
 
-    document.querySelector(".hire-me").addEventListener("click", function()
+   /* document.querySelector(".hire-me").addEventListener("click", function()
     {
-        const sectionIndex = this.getAttribute("data-section-index");
+      const targetId = this.getAttribute("data-target");
         //console.log(sectionIndex);
 
-        removeBackSection();
+        showSectionById(targetId);
 
-        showSection(this);
-        updateNav(this);
+        updateNavById(targetId);
+        history.pushState(null, null, `#${targetId}`);
         
-        addBackSection(sectionIndex);
-    })
+    })*/
+
+        // 버튼 클릭 이벤트 추가
+const customButtons = document.querySelectorAll(".custom-button");
+
+customButtons.forEach(button => {
+  button.addEventListener("click", function () {
+    const targetId = this.getAttribute("data-target"); // 버튼의 data-target 값
+
+    setBackSection();
+
+    // 섹션 활성화
+    showSectionById(targetId);
+
+    // Nav 메뉴 업데이트 (옵션)
+    updateNavById(targetId);
+
+    // URL 해시 업데이트
+    history.pushState(null, null, `#${targetId}`);
+  });
+});
+
+
+
+// 이전 섹션을 back-section으로 설정
+function setBackSection() {
+  // 모든 섹션에서 기존의 back-section 제거
+  allSection.forEach(section => section.classList.remove("back-section"));
+  
+  const currentActive = document.querySelector(".section.active");
+  console.log("Current Active Section:", currentActive); // 디버깅 메시지
+  if (currentActive) {
+    currentActive.classList.add("back-section");
+    console.log("Back Section added:", currentActive); // 디버깅 메시지
+  } else {
+    console.warn("No active section found.");
+  }
+}
+
+// 섹션 활성화 함수 (ID로 직접 활성화)
+function showSectionById(targetId) {
+  allSection.forEach(section => section.classList.remove("active"));
+
+  const targetSection = document.getElementById(targetId);
+  if (targetSection) targetSection.classList.add("active");
+}
+
+// Nav 메뉴 업데이트 함수 (ID 기준)
+function updateNavById(targetId) {
+  navList.forEach(navItem => {
+    const a = navItem.querySelector("a");
+    a.classList.toggle(
+      "active",
+      a.getAttribute("data-target") === targetId
+    );
+  });
+}
+
+
+
+
     const navTogglerBtn = document.querySelector(".nav-toggler"),
         aside = document.querySelector(".aside");
         navTogglerBtn.addEventListener("click", () => 
