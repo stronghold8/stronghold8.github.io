@@ -76,10 +76,7 @@ section.home{z-index:1;}
         transform: translateX(0%);
     }
 }
-.hidden
-{
-    display: none !important;
-}
+
 .padd-15
 {
     padding-left: 15px;
@@ -153,6 +150,25 @@ section.home{z-index:1;}
     border: none;
     background: var(--skin-color);
     transition: all 0.3s ease;
+}
+.custom-button
+{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 35px;
+    color: white;
+    border-radius: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    border: none;
+    background: var(--skin-color);
+    transition: all 0.3s ease;
+}
+.custom-button:hover
+{
+    transform: scale(1.05);
 }
 .btn img.btn-logo
 {
@@ -925,3 +941,17 @@ h3.my-profession
     font-size: 15px;
     margin-bottom: 60px;
 }
+.contents-container {
+    position: fixed;
+    top: 0;
+    right: -100%; /* 화면 우측 바깥에 위치 */
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-black-900);
+    z-index: 3; /* 최상단에 위치 */
+    transition: transform 1s ease-in-out; /* 슬라이드 애니메이션 */
+    transform: translateX(100%); /* 초기 위치 */
+  }
+  .contents-container.active {
+    transform: translateX(0); /* 중앙으로 이동 */
+  }
