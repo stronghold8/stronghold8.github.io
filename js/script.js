@@ -76,18 +76,6 @@ function updateNav(element) {
 
 
 
-   /* document.querySelector(".hire-me").addEventListener("click", function()
-    {
-      const targetId = this.getAttribute("data-target");
-        //console.log(sectionIndex);
-
-        showSectionById(targetId);
-
-        updateNavById(targetId);
-        history.pushState(null, null, `#${targetId}`);
-        
-    })*/
-
         // 버튼 클릭 이벤트 추가
 const customButtons = document.querySelectorAll(".custom-button");
 
@@ -114,7 +102,7 @@ customButtons.forEach(button => {
 function setBackSection() {
   // 모든 섹션에서 기존의 back-section 제거
   allSection.forEach(section => section.classList.remove("back-section"));
-  
+
   const currentActive = document.querySelector(".section.active");
   console.log("Current Active Section:", currentActive); // 디버깅 메시지
   if (currentActive) {
@@ -667,3 +655,56 @@ codeContainerIds.forEach((id, index) => {
     container.innerHTML = svgCodes[index]; // 코드 삽입    
   }
 });
+
+
+/* ============================================== 컨텐츠 섹션 로딩 ==============================================*/
+const contentItems = document.querySelectorAll(".content-item-inner");
+const contentsContainer = document.getElementById("contents-container");
+
+contentItems.forEach(item => {
+  item.addEventListener("click", function () {
+    const targetId = this.getAttribute("data-target");
+    console.log("Clicked target ID:", targetId); // 디버깅 메시지
+    
+    window.location.hash = `#${targetId}`; // 해시 업데이트
+
+    // JSON 데이터 로딩
+    fetchContent(targetId);
+  });
+});
+
+function fetchContent(targetId) {
+  fetch(`/json/${targetId}.json`) // JSON 파일 로드
+    .then(response => response.json())
+    .then(data => {
+      // 로드된 데이터를 contents-container에 삽입
+      renderContent(data);
+
+      // 슬라이드 애니메이션 활성화
+      contentsContainer.classList.add("active");
+    })
+    .catch(error => console.error("Error loading content:", error));
+}
+
+function renderContent(data) {
+  // 데이터를 HTML로 렌더링
+  const htmlContent = `
+    <div class="container">
+      <h2>${data.title}</h2>
+      <p>${data.description}</p>
+      <div class="posts">
+        ${data.posts
+          .map(
+            post => `
+          <div class="post">
+            <h3>${post.title}</h3>
+            <p>${post.content}</p>
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+  contentsContainer.innerHTML = htmlContent;
+}
