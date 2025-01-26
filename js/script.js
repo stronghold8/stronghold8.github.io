@@ -5,6 +5,9 @@ var typed = new Typed(".typing",{
     BackSpeed:60,
     loop:true
 })
+
+
+
 /* ============================================== Aside ============================================== */
 const nav = document.querySelector(".nav"),
   navList = nav.querySelectorAll("li"),
@@ -92,9 +95,11 @@ customButtons.forEach(button => {
     updateNavById(targetId);
 
     // URL 해시 업데이트
-    history.pushState(null, null, `#${targetId}`);
+    history.pushState(null, null, `/${targetId}`);
   });
 });
+
+
 
 
 
