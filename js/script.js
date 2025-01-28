@@ -9,9 +9,9 @@ var typed = new Typed(".typing",{
 
 
 /* ============================================== Aside ============================================== */
-const nav = document.querySelector(".nav"),
-  navList = nav.querySelectorAll("li"),
-  allSection = document.querySelectorAll(".section");
+const nav = document.querySelector(".nav"), //문서의 첫 번째 nav클래스 선택 (하나 밖에 없음)
+  navList = nav.querySelectorAll("li"),     //문서의 모든 li요소 선택 (nav클래스 안에 있는 것들만 있음)
+  allSection = document.querySelectorAll(".section"); //문서의 모든 section클래스 (home 'section', about 'section'들을 선택)
 
 // 메뉴 클릭 이벤트 등록
 for (let i = 0; i < navList.length; i++) {
@@ -95,7 +95,7 @@ customButtons.forEach(button => {
     updateNavById(targetId);
 
     // URL 해시 업데이트
-    history.pushState(null, null, `/${targetId}`);
+    history.pushState(null, null, `#${targetId}`);
   });
 });
 
