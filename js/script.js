@@ -13,7 +13,8 @@ var typed = new Typed(".typing",{
 /* ============================================== Aside ============================================== */
 const nav = document.querySelector(".nav"), //문서의 첫 번째 nav클래스 선택 (하나 밖에 없음)
   navList = nav.querySelectorAll("li"),     //nav클래스 내의 모든 li요소 선택 (nav클래스 안에 있는 것들만 있음)
-  allSection = document.querySelectorAll(".section"); //문서의 모든 section클래스 (home 'section', about 'section'들을 선택)
+  allSection = document.querySelectorAll(".section"), //문서의 모든 section클래스 (home 'section', about 'section'들을 선택)
+  totalSection = allSection.length;
 
 // 메뉴 클릭 이벤트 등록
 for (let i = 0; i < navList.length; i++) {  //navList의 크기 내에서 이동.
@@ -697,6 +698,66 @@ function showContainer(element)
 function removeContainer()
 {
   const contentsContainer = document.querySelector(".contents-container.active");
-  contentsContainer.classList.remove("active");
+  if(contentsContainer == null)
+  {
+    return;
+  }
+  else
+  {
+    contentsContainer.classList.remove("active");
+  }
 }
 
+// fetch로 외부 JSON 파일을 가져옴
+fetch('json/contents/javascript/javascript.json')
+  .then(response => response.json())  // JSON으로 변환
+  .then(data => {
+    // JSON 데이터 처리
+    const parentElement = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
+
+    data.forEach(item => {
+      // 각 항목에 대한 새로운 div 요소 생성
+      const newDiv = document.createElement("div");
+      newDiv.classList.add("content-item", "padd-15");  // 항목에 해당하는 클래스 추가
+      
+
+      /*// 항목에 대한 title과 content를 각각 담을 div 생성
+      const titleDiv = document.createElement("div"); //제목을 넣을 <div>생성 후, titleDiv로 관리
+      titleDiv.classList.add("section-title");  //해당 div에 클래스 추가
+      const titleElement = document.createElement("h2");  //<h2>추가 후 titleElement 변수로 관리
+      titleElement.textContent = item.title;  // <h2>가 title에 접근해서 텍스트를 읽어 옴
+      titleDiv.appendChild(titleElement); //<div>=titleDiv에 child로 <h2>를 추가
+      */
+
+      /* content-item padd-15라는 큰 틀을 newDiv라는 이름으로 생성 완료,
+
+      content-item-inner이라는 div 하나 더 만들어
+      div class = icon, h4, p 세개의 세부 사항을 만들어
+
+      3개를 전부 content-item-inner에 append,
+      content-item-inner을 content-item padd-15에 append
+      */
+
+      const innerDiv = document.createElement("div");
+      innerDiv.classList.add("content-item-inner");
+
+      const iconDiv = document.createElement("div");
+      iconDiv.classList.add("icon");
+      const titleElement = document.createElement("h2");
+      titleElement.textContent = item.title;
+      const contentsElement = document.createElement("p");
+      contentsElement.textContent = item.content;
+
+      //3개를 전부 content-item-inner에 append
+      innerDiv.appendChild(iconDiv);
+      innerDiv.appendChild(titleElement);
+      innerDiv.appendChild(contentsElement);
+      
+      //content-item-inner을 content-item padd-15에 append
+      newDiv.appendChild(innerDiv);
+
+      // 완성된 newDiv를 부모 요소에 추가
+      parentElement.appendChild(newDiv);
+    });
+  })
+  .catch(error => console.error("Error loading JSON:", error));  // 에러 처리

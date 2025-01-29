@@ -210,7 +210,7 @@
                    
                    <!-- Content item Start-->
                    <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="ai">
                         <div class="icon" id="icon_code-1"></div>
                         <h4>AI</h4>
                         <p>====== AI ======                         
@@ -220,7 +220,7 @@
                   <!-- Content item End-->
                    <!-- Content item Start-->
                    <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="java">
                         <div class="icon" id="icon_code-5"></div>
                         <h4>Java</h4>
                         <p>====== 자바 ======                          
@@ -230,7 +230,7 @@
                   <!-- Content item End-->
                   <!-- Content item Start-->
                   <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="network">
                         <div class="icon" id="icon_code-7"></div>
                         <h4>Network</h4>
                         <p>====== 네트워크 ======                          
@@ -240,7 +240,7 @@
                   <!-- Content item End-->
                   <!-- Content item Start-->
                   <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="math">
                         <div class="icon" id="icon_code-8"></div>
                         <h4>Mathematics</h4>
                         <p>====== 수학 ======                          
@@ -248,13 +248,9 @@
                      </div>
                    </div>
                   <!-- Content item End-->
-
-
-
-
                    <!-- Content item Start-->
                    <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="blog">
                         <div class="icon" id="icon_code-6"></div>
                         <h4>Blog</h4>
                         <p>====== 개인 블로그 ======                          
@@ -262,11 +258,9 @@
                      </div>
                    </div>
                   <!-- Content item End-->
-                   
-                   <!-- Content item End-->
                    <!-- Content item Start-->
                    <div class="content-item padd-15">
-                     <div class="content-item-inner">
+                     <div class="content-item-inner" data-target="minecraft">
                         <div class="icon" id="icon_code-4"></div>
                         <h4>Minecraft</h4>
                         <p>====== 마크 ======                          
@@ -458,13 +452,19 @@
          </section>
          <!-- == Contact Section End == -->
 
+         <!-- == Contents GROUP Start == -->
+         <div class="contentsGroup">
          <!-- == Contents Container Start == -->
          <section class="contents-container" id="javascript">
             <div class="container">
                <div class="row">
                   <div class="section-title padd-15"><h2>JavaScript, Node.js, Electron</h2></div>
                </div>
-               <div class="row">
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+               <br>
+               <div class="row items">
                   <!-- Content item Start-->
                   <div class="content-item padd-15">
                      <div class="content-item-inner">
@@ -485,14 +485,87 @@
             <div class="container">
                <div class="row">
                   <div class="section-title padd-15"><h2>Data Structure</h2></div>
-                  <a class="btn" onclick="removeContainer()">
-                     <img src="images/logo/github.png" alt="Github Logo" class="btn-logo">
-                  </a>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
                </div>
             </div>
          </section>
          <!-- == Contents Container End == -->
-
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="ai">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Artificial Intelligence</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="java">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Java</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="network">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Network</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="math">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Mathematics</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="blog">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Xianyun01's Blog Page</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         <!-- == Contents Container Start == -->
+         <section class="contents-container" id="minecraft">
+            <div class="container">
+               <div class="row">
+                  <div class="section-title padd-15"><h2>Minecraft</h2></div>
+               </div>
+               <div class="row padd-15">
+                  <div class="back-to-contents-button" onclick="removeContainer()">&lt;-Back to Contents</div>
+               </div>
+            </div>
+         </section>
+         <!-- == Contents Container End == -->
+         </div>
+         <!-- == Contents GROUP Start == -->
          
          <!-- == Dummy Section Start == -->
          <section class="dummy section" id="dummy">

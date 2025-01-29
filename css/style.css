@@ -227,6 +227,26 @@ section.home{z-index:1;}
 {
     transform: scale(1.05);
 }
+.back-to-contents-button
+{
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    border: none;
+    background: var(--skin-color);
+    transition: all 0.3s ease;
+}
+.back-to-contents-button:hover
+{
+    transform: scale(1.05);
+}
 .btn img.btn-logo
 {
     width: 40px;   
@@ -723,6 +743,7 @@ h3.my-profession
     margin: 0 auto 30px;
     text-align: center;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 .content .content-item .content-item-inner .icon .fa
 {
@@ -897,87 +918,7 @@ h3.my-profession
     height: 50px;
     padding: 0 50px;
 }
-@media (max-width:1199px)
-{
-    .section .container
-    {
-        padding-top: 70px;
-    }
-    .aside
-    {
-        left: -270px;
-    }
-    .aside.open
-    {
-        left: 0;
-    }
-    .aside .nav-toggler
-    {
-        display: flex;
-        left: 30px;
-    }
-    .aside .nav-toggler.open
-    {
-        left: 300px;
-    }
-    .section
-    {
-        left: 0;
-    }
-    .section.open
-    {
-        left: 270px;
-    }
-    .about .about-content .personal-info .info-item p span
-    {
-        display: block;
-        margin-left: 0;
-    }
-}
-@media (max-width:991px)
-{
-    .contact .contact-info-item,
-    .portfolio .portfolio-item,
-    .content .content-item,
-    .contents-container .content-item
-    {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
 
-    .home .home-info
-    {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    .home .home-img
-    {
-        display: none;
-    }
-}
-@media (max-width:767px)
-{
-    .contact .contact-form .col-6,
-    .contact .contact-info-item,
-    .portfolio .portfolio-item,
-    .content .content-item,
-    .contents-container .content-item,
-    .about .about-content .experience,
-    .about .about-content .education,
-    .about .about-content .skills,
-    .about .about-content .personal-info
-    {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
-@media (max-width:489px)
-{
-    .about .about-content .personal-info .info-item p span
-    {
-        flex: 1 1 100%;
-    }
-}
 
 .highlighted-link
 {
@@ -1032,6 +973,7 @@ h3.my-profession
     width: 60px;
     border-radius: 50%;
     display: block;
+    cursor: pointer;
     margin: 0 auto 30px;
     text-align: center;
     transition: all 0.3s ease;
@@ -1046,11 +988,6 @@ h3.my-profession
 .contents-container .content-item .content-item-inner:hover .icon
 {
     background-color: var(--skin-color);
-}
-.contents-container .content-item .content-item-inner:hover .icon .fa
-{
-    font-size: 25px;
-    color: white;
 }
 .contents-container .content-item .content-item-inner .icon svg
 {
@@ -1084,4 +1021,94 @@ h3.my-profession
     font-size: 16px;
     color: var(--text-black-700);
     line-height: 25px;
+}
+
+
+
+
+
+
+
+@media (max-width:1199px)
+{
+    .section .container
+    {
+        padding-top: 70px;
+    }
+    .aside
+    {
+        left: -270px;
+    }
+    .aside.open
+    {
+        left: 0;
+    }
+    .aside .nav-toggler
+    {
+        display: flex;
+        left: 30px;
+    }
+    .aside .nav-toggler.open
+    {
+        left: 300px;
+    }
+    .section,
+    .contents-container
+    {
+        left: 0;
+    }
+    .section.open,
+    .contents-container.open
+    {
+        left: 270px;
+    }
+    .about .about-content .personal-info .info-item p span
+    {
+        display: block;
+        margin-left: 0;
+    }
+}
+@media (max-width:991px)
+{
+    .contact .contact-info-item,
+    .portfolio .portfolio-item,
+    .content .content-item,
+    .contents-container .content-item
+    {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .home .home-info
+    {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .home .home-img
+    {
+        display: none;
+    }
+}
+@media (max-width:767px)
+{
+    .contact .contact-form .col-6,
+    .contact .contact-info-item,
+    .portfolio .portfolio-item,
+    .content .content-item,
+    .contents-container .content-item,
+    .about .about-content .experience,
+    .about .about-content .education,
+    .about .about-content .skills,
+    .about .about-content .personal-info
+    {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+@media (max-width:489px)
+{
+    .about .about-content .personal-info .info-item p span
+    {
+        flex: 1 1 100%;
+    }
 }
