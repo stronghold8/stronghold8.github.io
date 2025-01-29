@@ -8,22 +8,28 @@ var typed = new Typed(".typing",{
 
 
 
+
+
 /* ============================================== Aside ============================================== */
 const nav = document.querySelector(".nav"), //문서의 첫 번째 nav클래스 선택 (하나 밖에 없음)
-  navList = nav.querySelectorAll("li"),     //문서의 모든 li요소 선택 (nav클래스 안에 있는 것들만 있음)
+  navList = nav.querySelectorAll("li"),     //nav클래스 내의 모든 li요소 선택 (nav클래스 안에 있는 것들만 있음)
   allSection = document.querySelectorAll(".section"); //문서의 모든 section클래스 (home 'section', about 'section'들을 선택)
 
 // 메뉴 클릭 이벤트 등록
-for (let i = 0; i < navList.length; i++) {
-  const a = navList[i].querySelector("a");
+for (let i = 0; i < navList.length; i++) {  //navList의 크기 내에서 이동.
+  const a = navList[i].querySelector("a");  //nav의 각 요소는 해당하는 a태그 하나 선택, 그 태그마다 이벤트 설정
   a.addEventListener("click", function (e) {
     e.preventDefault(); // 기본 동작 방지
-    if (this.classList.contains("active")) return;
+    if (this.classList.contains("active"))
+      {
+        removeContainer();
+        return;
+      }  //this = a
 
     // 이전 섹션에 back-section 클래스 추가
     for (let j = 0; j < navList.length; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {
-        const activeTarget = navList[j].querySelector("a").getAttribute("data-target");
+      if (navList[j].querySelector("a").classList.contains("active")) {   //액티브인 aside의 a요소를 찾고
+        const activeTarget = navList[j].querySelector("a").getAttribute("data-target"); //그 요소의 data-target을 저장. activeTarget = about 이런 식으로.
         updateBackSection(activeTarget); // 이전 섹션에만 back-section 추가
       }
       navList[j].querySelector("a").classList.remove("active");
@@ -31,12 +37,13 @@ for (let i = 0; i < navList.length; i++) {
 
     // 현재 클릭한 메뉴 활성화
     this.classList.add("active");
-    showSection(this); // 새로운 섹션 활성화
+    showSection(this); // 새로운 섹션 활성화  this = a
 
     // 반응형에서 aside 토글 버튼 처리 (옵션)
     if (window.innerWidth < 1200) {
       asideSectionTogglerBtn();
     }
+    removeContainer()
   });
 }
 
@@ -51,8 +58,8 @@ function updateBackSection(targetId) {
 }
 
 // 섹션 표시 함수
-function showSection(element) {
-  const targetId = element.getAttribute("data-target"); // data-target으로 대상 식별
+function showSection(element) {     //매개변수를 특정 a로 넘김
+  const targetId = element.getAttribute("data-target"); // 특정 a의 data-target으로 대상 식별
 
   // 모든 섹션 비활성화
   allSection.forEach(section => section.classList.remove("active"));
@@ -661,4 +668,35 @@ codeContainerIds.forEach((id, index) => {
   }
 });
 
+
+/* ============================================== Contents-Container============================================== */
+
+const contents = document.querySelector("#contents"),
+  contentsList = contents.querySelectorAll(".content-item.padd-15");
+  
+for (let i = 0; i < contentsList.length; i++)
+{
+  const a = contentsList[i].querySelector(".content-item-inner");
+  a.addEventListener("click", function(e) 
+  {
+    e.preventDefault(); // 기본 동작 방지
+    if (this.classList.contains("active")) return; //this = a = 해당 item inner
+    showContainer(this);
+  })
+
+  
+};
+
+function showContainer(element)
+{
+  const contentId = element.getAttribute("data-target"); //contentId = javascript
+  const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
+  contentsContainer.classList.add("active");  
+};
+
+function removeContainer()
+{
+  const contentsContainer = document.querySelector(".contents-container.active");
+  contentsContainer.classList.remove("active");
+}
 
