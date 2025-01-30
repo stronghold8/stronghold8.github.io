@@ -86,7 +86,7 @@ function updateNav(element) {
 }
 
 
-
+/*
         // 버튼 클릭 이벤트 추가
 const customButtons = document.querySelectorAll(".custom-button");
 
@@ -106,6 +106,8 @@ customButtons.forEach(button => {
     history.pushState(null, null, `#${targetId}`);
   });
 });
+
+*/
 
 
 
@@ -672,17 +674,17 @@ codeContainerIds.forEach((id, index) => {
 
 /* ============================================== Contents-Container============================================== */
 
-const contents = document.querySelector("#contents"),
-  contentsList = contents.querySelectorAll(".content-item.padd-15");
+const contents = document.querySelector("#contents"), //content section으로 접근
+  contentsList = contents.querySelectorAll(".content-item.padd-15");  //content-item들을 모두 선택
   
-for (let i = 0; i < contentsList.length; i++)
+for (let i = 0; i < contentsList.length; i++) //item개수만큼 반복해서 항목을 생성한다.
 {
-  const a = contentsList[i].querySelector(".content-item-inner");
-  a.addEventListener("click", function(e) 
+  const a = contentsList[i].querySelector(".content-item-inner"); //각 item에서 하나 안으로 접근
+  a.addEventListener("click", function(e) //클릭 이벤트를 설정
   {
     e.preventDefault(); // 기본 동작 방지
     if (this.classList.contains("active")) return; //this = a = 해당 item inner
-    showContainer(this);
+    showContainer(this); //item들마다 각각 다른 container를 show.
   })
 
   
@@ -712,10 +714,10 @@ function removeContainer()
 fetch('json/contents/javascript/javascript.json')
   .then(response => response.json())  // JSON으로 변환
   .then(data => {
-    // JSON 데이터 처리
+    // JSON 데이터 처리, Mother Container
     const parentElement = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
 
-    data.forEach(item => {
+    data.forEach((item) => {
       // 각 항목에 대한 새로운 div 요소 생성
       const newDiv = document.createElement("div");
       newDiv.classList.add("content-item", "padd-15");  // 항목에 해당하는 클래스 추가
@@ -743,7 +745,7 @@ fetch('json/contents/javascript/javascript.json')
 
       const iconDiv = document.createElement("div");
       iconDiv.classList.add("icon");
-      const titleElement = document.createElement("h2");
+      const titleElement = document.createElement("h4");
       titleElement.textContent = item.title;
       const contentsElement = document.createElement("p");
       contentsElement.textContent = item.content;
@@ -761,3 +763,18 @@ fetch('json/contents/javascript/javascript.json')
     });
   })
   .catch(error => console.error("Error loading JSON:", error));  // 에러 처리
+
+/* ============================================== Post-Container============================================== */
+/* 내가 해야 할 것은
+
+  
+  */
+const postArea = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
+
+postArea.addEventListener('click', function(e){
+  if(e.target && e.target.classList.contains('icon')){
+    console.log("hello");
+  }
+})
+
+
