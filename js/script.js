@@ -707,38 +707,31 @@ function removeContainer()
   else
   {
     contentsContainer.classList.remove("active");
+    closePost();
   }
 }
 
-// fetch로 외부 JSON 파일을 가져옴
-fetch('json/contents/javascript/javascript.json')
-  .then(response => response.json())  // JSON으로 변환
-  .then(data => {
-    // JSON 데이터 처리, Mother Container
-    const parentElement = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
 
-    data.forEach((item) => {
-      // 각 항목에 대한 새로운 div 요소 생성
+
+const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft'];
+
+for (let i = 0; i < categories.length; i++){
+  const category = categories[i];
+  const parentElement = document.querySelector(`.contentsGroup .contents-container#${category} .row.items`);
+  fetch(`json/contents/${category}/${category}.json`)
+    .then(response => {
+      if (!response.ok){
+        console.log(`${category} 파일 없음`);
+        return null;
+      }
+      return response.json();
+    })
+    .then(data=> {
+      data.forEach((item) => {
+        // 각 항목에 대한 새로운 div 요소 생성
       const newDiv = document.createElement("div");
       newDiv.classList.add("content-item", "padd-15");  // 항목에 해당하는 클래스 추가
-      
-
-      /*// 항목에 대한 title과 content를 각각 담을 div 생성
-      const titleDiv = document.createElement("div"); //제목을 넣을 <div>생성 후, titleDiv로 관리
-      titleDiv.classList.add("section-title");  //해당 div에 클래스 추가
-      const titleElement = document.createElement("h2");  //<h2>추가 후 titleElement 변수로 관리
-      titleElement.textContent = item.title;  // <h2>가 title에 접근해서 텍스트를 읽어 옴
-      titleDiv.appendChild(titleElement); //<div>=titleDiv에 child로 <h2>를 추가
-      */
-
-      /* content-item padd-15라는 큰 틀을 newDiv라는 이름으로 생성 완료,
-
-      content-item-inner이라는 div 하나 더 만들어
-      div class = icon, h4, p 세개의 세부 사항을 만들어
-
-      3개를 전부 content-item-inner에 append,
-      content-item-inner을 content-item padd-15에 append
-      */
+      newDiv.dataset.fileName = item["file-name"];
 
       const innerDiv = document.createElement("div");
       innerDiv.classList.add("content-item-inner");
@@ -760,21 +753,66 @@ fetch('json/contents/javascript/javascript.json')
 
       // 완성된 newDiv를 부모 요소에 추가
       parentElement.appendChild(newDiv);
-    });
-  })
-  .catch(error => console.error("Error loading JSON:", error));  // 에러 처리
+      })
+    })
+    .catch(error => console.error("Error loading JSON:", error));  // 에러 처리
+    
+}
 
 /* ============================================== Post-Container============================================== */
-/* 내가 해야 할 것은
 
-  
-  */
-const postArea = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
 
-postArea.addEventListener('click', function(e){
-  if(e.target && e.target.classList.contains('icon')){
-    console.log("hello");
+const postArea = document.querySelector(".contentsGroup .row.items");
+
+postArea.addEventListener("click", function(e){
+  if(e.target && e.target.classList.contains("icon")){
+    const contentItem= e.target.closest(".content-item");
+    const target_container = contentItem.closest(".contents-container");
+    const target_category = target_container.id;
+    
+    if(contentItem) {
+      const fileName = contentItem.dataset.fileName;
+
+      
+      console.log(target_category);
+      console.log(contentItem);
+      showPost(fileName, target_category);
+    }
   }
 })
 
+function showPost(fileName, target_category)
+{
+  fetch(`json/contents/${target_category}/${fileName}`);
+  openPost();
+}
 
+function openPost()
+{
+  const postContainer = document.querySelector(`.postGroup .post-container`)
+  postContainer.classList.add("active");
+}
+
+function closePost()
+{
+  const postContainer = document.querySelector(".post-container.active");
+  if(postContainer == null)
+  {
+    return;
+  }
+  else
+  {
+    postContainer.classList.remove("active");
+  }
+}
+
+function removePost()
+{
+  closePost();
+}
+
+
+/*
+const contentId = element.getAttribute("data-target"); //contentId = javascript
+  const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
+  contentsContainer.classList.add("active"); */
