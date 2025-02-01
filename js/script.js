@@ -673,7 +673,7 @@ codeContainerIds.forEach((id, index) => {
 
 
 /* ============================================== Contents-Container============================================== */
-
+//카테고리 별로 컨테이너를 로딩하는 기능
 const contents = document.querySelector("#contents"), //content section으로 접근
   contentsList = contents.querySelectorAll(".content-item.padd-15");  //content-item들을 모두 선택
   
@@ -711,7 +711,8 @@ function removeContainer()
   }
 }
 
-
+/* ============================================== Category-inner-boxes ============================================== */
+//카테고리 클릭 시, 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
 const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft'];
 
@@ -738,10 +739,16 @@ for (let i = 0; i < categories.length; i++){
 
       const iconDiv = document.createElement("div");
       iconDiv.classList.add("icon");
+      
+      const svgIconDiv = document.createElement("img");
+      svgIconDiv.src = (`images/contents-logo/${item["icon"]}`);
+      svgIconDiv.classList.add("mysvg");
+      iconDiv.appendChild(svgIconDiv);
+
       const titleElement = document.createElement("h4");
       titleElement.textContent = item.title;
       const contentsElement = document.createElement("p");
-      contentsElement.textContent = item.content;
+      contentsElement.textContent = item.date;
 
       //3개를 전부 content-item-inner에 append
       innerDiv.appendChild(iconDiv);
@@ -759,33 +766,85 @@ for (let i = 0; i < categories.length; i++){
     
 }
 
-/* ============================================== Post-Container============================================== */
+/* ============================================== Post Contents============================================== */
+//실제 포스트 내용을 show.
+//이벤트 델리게이션
+for (let i = 0; i < categories.length; i++){
+  const category = categories[i];
+  const postArea = document.querySelector(`.contentsGroup .contents-container#${category} .row.items`);
 
-
-const postArea = document.querySelector(".contentsGroup .row.items");
-
-postArea.addEventListener("click", function(e){
-  if(e.target && e.target.classList.contains("icon")){
-    const contentItem= e.target.closest(".content-item");
-    const target_container = contentItem.closest(".contents-container");
-    const target_category = target_container.id;
-    
-    if(contentItem) {
-      const fileName = contentItem.dataset.fileName;
-
+  postArea.addEventListener("click", function(e){
+    if(e.target && (
+      e.target.classList.contains("mysvg")
+      || e.target.classList.contains("icon")
+      || e.target.classList.contains("content-item-inner")
       
-      console.log(target_category);
-      console.log(contentItem);
-      showPost(fileName, target_category);
+      
+      )
+    ){
+      const contentItem= e.target.closest(".content-item");
+      const target_container = contentItem.closest(".contents-container");
+      const target_category = target_container.id;
+      
+      if(contentItem) {
+        const fileName = contentItem.dataset.fileName;
+  
+        
+        showPost(fileName, target_category);
+      }
     }
-  }
-})
+  })
+}
+
 
 function showPost(fileName, target_category)
 {
-  fetch(`json/contents/${target_category}/${fileName}`);
-  openPost();
+  if(fileName){
+    fetch(`json/contents/${target_category}/${fileName}`)
+    .then(response => {
+      if(!response.ok) {
+        throw new Error("파일 없음");
+      }
+      return response.json();
+    })
+    .then(data => {
+      loadPost(data);
+
+
+      openPost();
+    })
+    .catch(error => {
+      console.log("에러 발생:", error.message);
+    })
+  }
 }
+
+function loadPost(data)
+{
+  const postContainer = document.querySelector(`.postGroup .post-container`);
+  const title = postContainer.querySelector(".section-title.padd-15 .a");
+  const sub_Title = postContainer.querySelector(".post-subtitle.padd-15 .b");
+  const content = postContainer.querySelector(".post-text.padd-15 .c");
+/*
+  const titleDiv = document.createElement("h2");
+  titleDiv.textContent = data.title;
+  
+  const sub_titleDiv = document.createElement("h3");
+  sub_titleDiv.textContent = data.subTitle;
+
+  const textDiv = document.createElement("p");
+  textDiv.textContent = data.content;
+
+  title.appendChild(titleDiv);
+  sub_Title.appendChild(sub_titleDiv);
+  content.appendChild(textDiv);
+*/
+  title.textContent = data.title;
+  sub_Title.textContent = data.subTitle;
+  content.textContent = data.content;
+}
+
+
 
 function openPost()
 {
@@ -810,6 +869,8 @@ function removePost()
 {
   closePost();
 }
+
+
 
 
 /*

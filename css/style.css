@@ -1065,7 +1065,7 @@ h3.my-profession
 {
     z-index: 5;
     opacity: 1;
-    animation: slidePostContainerIn 1.5s ease;
+    animation: slidePostContainerIn 1s ease;
 }
 @keyframes slidePostContainerIn {
     0% {
@@ -1120,7 +1120,22 @@ h3.my-profession
     color: var(--text-black-900);
 }
 
-
+.contents-container .row.items .content-item-inner .icon .mysvg
+{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    fill: var(--skin-color);
+}
+.contents-container .row.items .content-item-inner:hover .icon .mysvg
+{
+    width: 40px;
+    fill: white;
+}
 
 
 
