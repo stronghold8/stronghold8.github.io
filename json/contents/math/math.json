@@ -1,3 +1,4 @@
 [
+    { "title": "Title 1", "date": "Content for item 1", "file-name": "math-1.json", "icon": "math.svg"},
     { "title": "Title 1", "date": "Content for item 1", "file-name": "math-1.json", "icon": "math.svg"}
   ]
