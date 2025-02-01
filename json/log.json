@@ -19,7 +19,12 @@
         "date": "2025-01-25",
         "title": "STRONGHOLD 각 섹션 동적 관리 시스템 구현",
         "text": "NodeList로 반환된 nav와 section 클래스들을 함수로 동기화하는 방식에서 data- 속성을 활용, 명시적으로 연결하는 방식으로 변경"
-      }  
+      },
+      {
+        "date": "2025-02-01",
+        "title": "STRONGHOLD 완전 동적 구현 완료",
+        "text": "Javascript를 이용한 Memory Delegation을 적용해 모든 세부 세션들을 동적 할당하는 시스템 구축 완료"
+      } 
     ]
   }
   
