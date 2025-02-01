@@ -8,8 +8,13 @@
       {
         "date": "2025-01-17",
         "title": "링크 이전 완료",
-        "text": "개인 깃허브 관리 방식에서 stronghold8.github.io의 별도 관리 방식으로 변경"
-      }
+        "text": "개인 깃허브 관리 방식에서 stronghold8.github.io의 별도 관리 방식으로 변경."
+      },
+      {
+        "date": "2025-02-01",
+        "title": "STRONGHOLD 1.0 Release",
+        "text": "전 데이터 동적 관리 시스템 및 Event Delegation을 적용하여 Contents 섹션을 완공. 이 기점으로 STRONGHOLD 1.0 버전을 릴리스."
+      } 
     ]
   }
   
