@@ -86,7 +86,7 @@ function updateNav(element) {
 }
 
 
-
+/*
         // 버튼 클릭 이벤트 추가
 const customButtons = document.querySelectorAll(".custom-button");
 
@@ -106,6 +106,8 @@ customButtons.forEach(button => {
     history.pushState(null, null, `#${targetId}`);
   });
 });
+
+*/
 
 
 
@@ -671,18 +673,18 @@ codeContainerIds.forEach((id, index) => {
 
 
 /* ============================================== Contents-Container============================================== */
-
-const contents = document.querySelector("#contents"),
-  contentsList = contents.querySelectorAll(".content-item.padd-15");
+//카테고리 별로 컨테이너를 로딩하는 기능
+const contents = document.querySelector("#contents"), //content section으로 접근
+  contentsList = contents.querySelectorAll(".content-item.padd-15");  //content-item들을 모두 선택
   
-for (let i = 0; i < contentsList.length; i++)
+for (let i = 0; i < contentsList.length; i++) //item개수만큼 반복해서 항목을 생성한다.
 {
-  const a = contentsList[i].querySelector(".content-item-inner");
-  a.addEventListener("click", function(e) 
+  const a = contentsList[i].querySelector(".content-item-inner"); //각 item에서 하나 안으로 접근
+  a.addEventListener("click", function(e) //클릭 이벤트를 설정
   {
     e.preventDefault(); // 기본 동작 방지
     if (this.classList.contains("active")) return; //this = a = 해당 item inner
-    showContainer(this);
+    showContainer(this); //item들마다 각각 다른 container를 show.
   })
 
   
@@ -705,48 +707,48 @@ function removeContainer()
   else
   {
     contentsContainer.classList.remove("active");
+    closePost();
   }
 }
 
-// fetch로 외부 JSON 파일을 가져옴
-fetch('json/contents/javascript/javascript.json')
-  .then(response => response.json())  // JSON으로 변환
-  .then(data => {
-    // JSON 데이터 처리
-    const parentElement = document.querySelector(".contentsGroup .contents-container#javascript .row.items");
+/* ============================================== Category-inner-boxes ============================================== */
+//카테고리 클릭 시, 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
-    data.forEach(item => {
-      // 각 항목에 대한 새로운 div 요소 생성
+const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft'];
+
+for (let i = 0; i < categories.length; i++){
+  const category = categories[i];
+  const parentElement = document.querySelector(`.contentsGroup .contents-container#${category} .row.items`);
+  fetch(`json/contents/${category}/${category}.json`)
+    .then(response => {
+      if (!response.ok){
+        console.log(`${category} 파일 없음`);
+        return null;
+      }
+      return response.json();
+    })
+    .then(data=> {
+      data.forEach((item) => {
+        // 각 항목에 대한 새로운 div 요소 생성
       const newDiv = document.createElement("div");
       newDiv.classList.add("content-item", "padd-15");  // 항목에 해당하는 클래스 추가
-      
-
-      /*// 항목에 대한 title과 content를 각각 담을 div 생성
-      const titleDiv = document.createElement("div"); //제목을 넣을 <div>생성 후, titleDiv로 관리
-      titleDiv.classList.add("section-title");  //해당 div에 클래스 추가
-      const titleElement = document.createElement("h2");  //<h2>추가 후 titleElement 변수로 관리
-      titleElement.textContent = item.title;  // <h2>가 title에 접근해서 텍스트를 읽어 옴
-      titleDiv.appendChild(titleElement); //<div>=titleDiv에 child로 <h2>를 추가
-      */
-
-      /* content-item padd-15라는 큰 틀을 newDiv라는 이름으로 생성 완료,
-
-      content-item-inner이라는 div 하나 더 만들어
-      div class = icon, h4, p 세개의 세부 사항을 만들어
-
-      3개를 전부 content-item-inner에 append,
-      content-item-inner을 content-item padd-15에 append
-      */
+      newDiv.dataset.fileName = item["file-name"];
 
       const innerDiv = document.createElement("div");
       innerDiv.classList.add("content-item-inner");
 
       const iconDiv = document.createElement("div");
       iconDiv.classList.add("icon");
-      const titleElement = document.createElement("h2");
+      
+      const svgIconDiv = document.createElement("img");
+      svgIconDiv.src = (`images/contents-logo/${item["icon"]}`);
+      svgIconDiv.classList.add("mysvg");
+      iconDiv.appendChild(svgIconDiv);
+
+      const titleElement = document.createElement("h4");
       titleElement.textContent = item.title;
       const contentsElement = document.createElement("p");
-      contentsElement.textContent = item.content;
+      contentsElement.textContent = item.date;
 
       //3개를 전부 content-item-inner에 append
       innerDiv.appendChild(iconDiv);
@@ -758,6 +760,120 @@ fetch('json/contents/javascript/javascript.json')
 
       // 완성된 newDiv를 부모 요소에 추가
       parentElement.appendChild(newDiv);
-    });
+      })
+    })
+    .catch(error => console.error("Error loading JSON:", error));  // 에러 처리
+    
+}
+
+/* ============================================== Post Contents============================================== */
+//실제 포스트 내용을 show.
+//이벤트 델리게이션
+for (let i = 0; i < categories.length; i++){
+  const category = categories[i];
+  const postArea = document.querySelector(`.contentsGroup .contents-container#${category} .row.items`);
+
+  postArea.addEventListener("click", function(e){
+    if(e.target && (
+      e.target.classList.contains("mysvg")
+      || e.target.classList.contains("icon")
+      || e.target.classList.contains("content-item-inner")
+      
+      
+      )
+    ){
+      const contentItem= e.target.closest(".content-item");
+      const target_container = contentItem.closest(".contents-container");
+      const target_category = target_container.id;
+      
+      if(contentItem) {
+        const fileName = contentItem.dataset.fileName;
+  
+        
+        showPost(fileName, target_category);
+      }
+    }
   })
-  .catch(error => console.error("Error loading JSON:", error));  // 에러 처리
+}
+
+
+function showPost(fileName, target_category)
+{
+  if(fileName){
+    fetch(`json/contents/${target_category}/${fileName}`)
+    .then(response => {
+      if(!response.ok) {
+        throw new Error("파일 없음");
+      }
+      return response.json();
+    })
+    .then(data => {
+      loadPost(data);
+
+
+      openPost();
+    })
+    .catch(error => {
+      console.log("에러 발생:", error.message);
+    })
+  }
+}
+
+function loadPost(data)
+{
+  const postContainer = document.querySelector(`.postGroup .post-container`);
+  const title = postContainer.querySelector(".section-title.padd-15 .a");
+  const sub_Title = postContainer.querySelector(".post-subtitle.padd-15 .b");
+  const content = postContainer.querySelector(".post-text.padd-15 .c");
+/*
+  const titleDiv = document.createElement("h2");
+  titleDiv.textContent = data.title;
+  
+  const sub_titleDiv = document.createElement("h3");
+  sub_titleDiv.textContent = data.subTitle;
+
+  const textDiv = document.createElement("p");
+  textDiv.textContent = data.content;
+
+  title.appendChild(titleDiv);
+  sub_Title.appendChild(sub_titleDiv);
+  content.appendChild(textDiv);
+*/
+  title.textContent = data.title;
+  sub_Title.textContent = data.subTitle;
+  content.textContent = data.content;
+}
+
+
+
+function openPost()
+{
+  const postContainer = document.querySelector(`.postGroup .post-container`)
+  postContainer.classList.add("active");
+}
+
+function closePost()
+{
+  const postContainer = document.querySelector(".post-container.active");
+  if(postContainer == null)
+  {
+    return;
+  }
+  else
+  {
+    postContainer.classList.remove("active");
+  }
+}
+
+function removePost()
+{
+  closePost();
+}
+
+
+
+
+/*
+const contentId = element.getAttribute("data-target"); //contentId = javascript
+  const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
+  contentsContainer.classList.add("active"); */
