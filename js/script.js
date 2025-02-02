@@ -800,6 +800,7 @@ for (let i = 0; i < categories.length; i++){
 function showPost(fileName, target_category)
 {
   if(fileName){
+    openPost();
     fetch(`json/contents/${target_category}/${fileName}`)
     .then(response => {
       if(!response.ok) {
@@ -808,10 +809,11 @@ function showPost(fileName, target_category)
       return response.json();
     })
     .then(data => {
+      
       loadPost(data);
 
 
-      openPost();
+      
     })
     .catch(error => {
       console.log("에러 발생:", error.message);

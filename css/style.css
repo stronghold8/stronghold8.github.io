@@ -1049,7 +1049,7 @@ h3.my-profession
     min-height: 100vh;
     display: block;
     padding: 0 30px;
-    opacity: 0;
+    opacity: 1;
     position: fixed;
     left: 270px;
     top: 0;
@@ -1059,7 +1059,7 @@ h3.my-profession
     overflow-y: auto;
     overflow-x: hidden;
     transition: all 1s ease;
-    animation: slidePostContainerOut 1s ease forwards;
+    animation: slidePostContainerOut 1s ease;
 }
 .post-container.active
 {
