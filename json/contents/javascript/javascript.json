@@ -1,6 +1,7 @@
 [
-    { "title": "Title 1", "date": "첫 번째 글입니다", "file-name": "javascript-1.json", "icon": "electron.svg"},
+    
     { "title": "Title 2", "date": "Content for item 2", "file-name": "javascript-2.json", "icon": "electron.svg" },
     { "title": "Title 3", "date": "Content for item 3", "file-name": "javascript-3.json", "icon": "electron.svg" },
-    { "title": "Title 4", "date": "Content for item 4", "file-name": "javascript-4.json", "icon": "electron.svg" }
+    { "title": "Title 4", "date": "Content for item 4", "file-name": "javascript-4.json", "icon": "electron.svg" },
+    { "title": "이", "date": "첫 번째 글입니다", "file-name": "javascript-1.json", "icon": "electron.svg"}
   ]

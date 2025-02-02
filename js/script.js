@@ -778,8 +778,8 @@ for (let i = 0; i < categories.length; i++){
       e.target.classList.contains("mysvg")
       || e.target.classList.contains("icon")
       || e.target.classList.contains("content-item-inner")
-      
-      
+      || e.target.tagName === "H4"
+      || e.target.tagName === "P"
       )
     ){
       const contentItem= e.target.closest(".content-item");
@@ -844,6 +844,7 @@ function loadPost(data)
   title.textContent = data.title;
   sub_Title.textContent = data.subTitle;
   content.textContent = data.content;
+  content.style.whiteSpace = "pre-line";
 }
 
 
