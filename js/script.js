@@ -714,7 +714,7 @@ function removeContainer()
 /* ============================================== Category-inner-boxes ============================================== */
 //카테고리 클릭 시, 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
-const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft'];
+const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese'];
 
 for (let i = 0; i < categories.length; i++){
   const category = categories[i];

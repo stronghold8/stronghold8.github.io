@@ -782,6 +782,7 @@ h3.my-profession
     color: white;
 }
 .content .content-item .content-item-inner .icon svg
+,.content .content-item .content-item-inner .icon img
 {
     height: 60px;
     width: 60px;
@@ -793,6 +794,7 @@ h3.my-profession
     fill: var(--skin-color);
 }
 .content .content-item .content-item-inner:hover .icon svg
+,.content .content-item .content-item-inner:hover .icon img
 {
     width: 40px;
     fill: white;
