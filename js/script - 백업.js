@@ -284,8 +284,8 @@ const svgCodes = [
 `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 502.632 502.632" style="enable-background:new 0 0 502.632 502.632;" xml:space="preserve">
 <defs>
   <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset=0 style="stop-color:#9f2fff;stop-opacity:1" />
-      <stop offset=1 style="stop-color:#0bb1d3;stop-opacity:1" />
+      <stop offset="0" style="stop-color:#9f2fff;stop-opacity:1"/>
+      <stop offset="1" style="stop-color:#0bb1d3;stop-opacity:1"/>
     </linearGradient>
 </defs>
 <g>
