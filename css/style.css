@@ -1100,6 +1100,15 @@ h3.my-profession
     flex: 0 0 100%;
     max-width: 100%;
 }
+.post-content .post-main-content
+{
+    width: 100%;
+}
+.post-content .post-main-content .post-text
+{
+    width: 90%;
+    margin: 0 auto;
+}
 .post-container .post-content .post-subtitle
 {
     flex: 0 0 100%;
@@ -1117,7 +1126,7 @@ h3.my-profession
 .post-container .post-content .post-main-content .post-text p
 {
     font-weight: 600;
-    padding: 10px 0;
+    padding: 20px 0;
     font-size: 16px;
     color: var(--text-black-900);
 }

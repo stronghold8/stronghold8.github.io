@@ -459,23 +459,46 @@ function loadPost(data, target_category)
   const sub_Title = postContainer.querySelector(".post-subtitle.padd-15 .b");
   const content = postContainer.querySelector(".post-text.padd-15 .c");
   const buttonCat = postContainer.querySelector(".back-to-category-button .buttonCat");
-/*
-  const titleDiv = document.createElement("h2");
-  titleDiv.textContent = data.title;
-  
-  const sub_titleDiv = document.createElement("h3");
-  sub_titleDiv.textContent = data.subTitle;
 
-  const textDiv = document.createElement("p");
-  textDiv.textContent = data.content;
-
-  title.appendChild(titleDiv);
-  sub_Title.appendChild(sub_titleDiv);
-  content.appendChild(textDiv);
-*/
   title.textContent = data.title;
   sub_Title.textContent = data.subTitle;
-  content.textContent = data.content;
+
+  // 🔹 기존 내용 삭제 (초기화)
+  while (postArea.firstChild) {
+    postArea.removeChild(postArea.firstChild);
+  }
+
+  data.content.forEach(item => {
+    let element;
+
+    const wrapper = document.createElement("div");
+    wrapper.style.textAlign = "center";
+
+    if (typeof item === "string") {
+      // 일반 텍스트 처리
+      element = document.createElement("p");
+      element.textContent = item;
+
+    } else if (item.type === "image") {
+      // 이미지 처리
+      element = document.createElement("img");
+      element.src = item.src;
+      element.alt = item.alt;
+      element.style.maxWidth = "100%"; // 반응형
+
+    } else if (item.type === "youtube") {
+      // 유튜브 영상 처리
+      element = document.createElement("iframe");
+      element.src = `https://www.youtube.com/embed/${item.id}`;
+      element.width = "70%";
+      element.height = "400";
+      element.allowFullscreen = true;
+    }
+    wrapper.appendChild(element);
+    content.appendChild(wrapper);
+  });
+
+  //content.textContent = data.content;
   buttonCat.textContent = target_category;
   content.style.whiteSpace = "pre-line";
 }
