@@ -150,38 +150,77 @@ function updateNavById(targetId) {
 
 
 
-    const navTogglerBtn = document.querySelector(".nav-toggler"),
-        aside = document.querySelector(".aside");
-        navTogglerBtn.addEventListener("click", () => 
+const navTogglerBtn = document.querySelector(".nav-toggler"),
+    aside = document.querySelector(".aside");
+    navTogglerBtn.addEventListener("click", () => 
+    {
+        asideSectionTogglerBtn();
+    })
+    function asideSectionTogglerBtn()
+    {
+        aside.classList.toggle("open");
+        navTogglerBtn.classList.toggle("open");
+        for(let i = 0; i<totalSection; i++)
         {
-            asideSectionTogglerBtn();
-        })
-        function asideSectionTogglerBtn()
-        {
-            aside.classList.toggle("open");
-            navTogglerBtn.classList.toggle("open");
-            for(let i = 0; i<totalSection; i++)
-            {
-                allSection[i].classList.toggle("open");
-            }
+            allSection[i].classList.toggle("open");
         }
+    }
 
-        window.addEventListener("load", () => {
-            const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
-            if (hash) {
-                const target = document.querySelector(hash);
-                if (target) {
-                    // 모든 섹션 초기화
-                    allSection.forEach(section => section.classList.remove("active"));
-                    // 해시 섹션 활성화
-                    target.classList.add("active");
-        
-                    // 네비게이션도 업데이트
-                    updateNav(document.querySelector(`a[href="${hash}"]`));
-                }
+
+
+window.addEventListener("load", () => {
+    const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
+    const navCat = hash.split('/')[0];
+    const contCat = hash.split('/')[1];
+    const fileName = hash.split('/')[2];
+    if (hash) {
+        const target = document.querySelector(navCat);
+        if (target) {
+            // 모든 섹션 초기화
+            allSection.forEach(section => section.classList.remove("active"));
+            // 해시 섹션 활성화
+            target.classList.add("active");
+
+            if(contCat)
+            {
+              showContainer(contCat);
+
+              if(fileName)
+              {
+                showPost(fileName, contCat);
+              }
             }
-        });
+            
 
+            // 네비게이션도 업데이트
+            updateNav(document.querySelector(`a[href="${navCat}"]`));
+        }
+    }
+});
+
+
+/*
+function loadContentFromHash() {
+  const hash = window.location.hash;  // #contents/javascript
+  const target = hash.split('/')[1];  // "javascript"
+}
+
+const categoryLinks = document.querySelectorAll('.content-item-inner');
+categoryLinks.forEach(link => {
+  link.addEventListener('click', function () {
+    const targetCategory = this.dataset.target;  // data-target="javascript"
+    window.location.hash = `#contents/${targetCategory}`;  // #contents/javascript
+    loadContentFromHash();  // 해시 값에 맞는 콘텐츠 로드
+  });
+});
+
+// 해시 값이 변경될 때마다 콘텐츠 로드
+window.addEventListener('hashchange', loadContentFromHash);
+
+// 초기 로드 시 해시 값에 맞는 콘텐츠 로드
+loadContentFromHash();
+
+*/
 
 
 /* ============================================== 개인 로그  ============================================== */
@@ -315,15 +354,18 @@ for (let i = 0; i < contentsList.length; i++) //item개수만큼 반복해서 �
   {
     e.preventDefault(); // 기본 동작 방지
     if (this.classList.contains("active")) return; //this = a = 해당 item inner
-    showContainer(this); //item들마다 각각 다른 container를 show.
+    //showContainer(this); //item들마다 각각 다른 container를 show.
+
+    const contentId = this.getAttribute("data-target"); //contentId = javascript
+    showContainer(contentId);
   })
 
   
 };
 
-function showContainer(element)
+function showContainer(contentId)
 {
-  const contentId = element.getAttribute("data-target"); //contentId = javascript
+  //const contentId = element.getAttribute("data-target"); //contentId = javascript
   const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
   contentsContainer.classList.add("active");  
 };
@@ -345,7 +387,7 @@ function removeContainer()
 /* ============================================== Category-inner-boxes ============================================== */
 //카테고리 클릭 시, 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
-const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python'];
+const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python', 'security'];
 
 for (let i = 0; i < categories.length; i++){
   const category = categories[i];
@@ -462,6 +504,7 @@ function loadPost(data, target_category)
 
   title.textContent = data.title;
   sub_Title.textContent = data.subTitle;
+  sub_Title.style.textAlign = "center";
 
   // 🔹 기존 내용 삭제 (초기화)
   while (postArea.firstChild) {
@@ -470,7 +513,6 @@ function loadPost(data, target_category)
 
   data.content.forEach(item => {
     let element;
-
     const wrapper = document.createElement("div");
     wrapper.style.textAlign = "center";
 
@@ -488,13 +530,23 @@ function loadPost(data, target_category)
 
     } else if (item.type === "youtube") {
       // 유튜브 영상 처리
-      element = document.createElement("iframe");
-      element.src = `https://www.youtube.com/embed/${item.id}`;
-      element.width = "70%";
-      element.height = "400";
-      element.allowFullscreen = true;
+      
+      wrapper.classList.add("video-wrapper"); // wrapper에 클래스 추가
+
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube.com/embed/${item.id}`;
+      iframe.allowFullscreen = true;
+      iframe.classList.add("video-frame");
+
+      wrapper.appendChild(iframe); // element 대신 iframe을 직접 append
+
+      
+      
     }
-    wrapper.appendChild(element);
+    // 텍스트, 이미지, 영상 등 다른 콘텐츠가 있을 때 추가
+    if (element) {
+      wrapper.appendChild(element);
+    }
     content.appendChild(wrapper);
   });
 
@@ -530,9 +582,3 @@ function removePost()
 }
 
 
-
-
-/*
-const contentId = element.getAttribute("data-target"); //contentId = javascript
-  const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
-  contentsContainer.classList.add("active"); */
