@@ -85,6 +85,15 @@ function updateNav(element) {
   });
 }
 
+function updateCategoryHash(inputCat){  //inputCat = javascript | python | blog etc
+  history.pushState(null, null, `${window.location.hash}/${inputCat}`);
+}
+
+function updatePostHash(inputPost){
+  history.pushState(null, null, `${window.location.hash}/${inputPost}`);
+}
+
+
 
 /*
         // 버튼 클릭 이벤트 추가
@@ -168,8 +177,10 @@ const navTogglerBtn = document.querySelector(".nav-toggler"),
 
 
 
-window.addEventListener("load", () => {
-    const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
+
+
+function loadContentFromHash(){
+  const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
     const navCat = hash.split('/')[0];
     const contCat = hash.split('/')[1];
     const fileName = hash.split('/')[2];
@@ -196,6 +207,13 @@ window.addEventListener("load", () => {
             updateNav(document.querySelector(`a[href="${navCat}"]`));
         }
     }
+}
+
+window.addEventListener("load", loadContentFromHash);
+
+window.addEventListener("popstate", () => {
+  loadContentFromHash();
+  console.log(event.state);
 });
 
 
@@ -343,7 +361,7 @@ async function loadEducation() {
 
 
 /* ============================================== Contents-Container============================================== */
-//카테고리 별로 컨테이너를 로딩하는 기능
+//카테고리 별로 컨테이너(HTML섹션)를 로딩하는 기능
 const contents = document.querySelector("#contents"), //content section으로 접근
   contentsList = contents.querySelectorAll(".content-item.padd-15");  //content-item들을 모두 선택
   
@@ -358,6 +376,8 @@ for (let i = 0; i < contentsList.length; i++) //item개수만큼 반복해서 �
 
     const contentId = this.getAttribute("data-target"); //contentId = javascript
     showContainer(contentId);
+
+    updateCategoryHash(contentId);
   })
 
   
@@ -381,11 +401,12 @@ function removeContainer()
   {
     contentsContainer.classList.remove("active");
     closePost();
+    history.pushState(null, null, `#contents`);
   }
 }
 
 /* ============================================== Category-inner-boxes ============================================== */
-//카테고리 클릭 시, 포스트 아이템들을 박스로 만들어서 미리보기로 show
+//카테고리 클릭 시, (HTML섹션이 로딩 후에) 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
 const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python', 'security'];
 
@@ -464,6 +485,7 @@ for (let i = 0; i < categories.length; i++){
   
         
         showPost(fileName, target_category);
+        updatePostHash(fileName);
       }
     }
   })
@@ -573,12 +595,24 @@ function closePost()
   else
   {
     postContainer.classList.remove("active");
+    removePostHash()
   }
 }
 
 function removePost()
 {
   closePost();
+}
+
+
+
+function removePostHash(){  //#contents/blog/blog-1.json
+  const currentHash = window.location.hash;
+  const contents = currentHash.split('/')[0];
+  const category = currentHash.split('/')[1];
+  const fileName = currentHash.split('/')[2];
+
+  history.pushState(null, null, `${contents}/${category}`);
 }
 
 
