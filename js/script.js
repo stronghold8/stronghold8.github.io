@@ -516,6 +516,41 @@ function showPost(fileName, target_category)
   }
 }
 
+//['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python', 'security'];
+
+function getCategoryName(element){
+  switch(element){
+    case "javascript":
+      return "Javascript";
+    case "data-structure":
+      return "Data Structure";
+    case "ai":
+      return "AI";
+    case "java":
+      return "JAVA";
+    case "network":
+      return "Network";
+    case "math":
+      return "Mathematics";
+    case "blog":
+      return "Blog";
+    case "minecraft":
+      return "Minecraft";
+    case "chinese":
+      return "Chinese";
+    case "japanese":
+      return "Japanese";
+    case "cpp":
+      return "C++";
+    case "python":
+      return "Python";
+    case "security":
+      return "Computer Security";
+    
+  }
+}
+
+
 function loadPost(data, target_category)
 {
   const postContainer = document.querySelector(`.postGroup .post-container`);
@@ -528,6 +563,7 @@ function loadPost(data, target_category)
   sub_Title.textContent = data.subTitle;
   sub_Title.style.textAlign = "center";
 
+  buttonCat.textContent = getCategoryName(target_category);
   // 🔹 기존 내용 삭제 (초기화)
   while (postArea.firstChild) {
     postArea.removeChild(postArea.firstChild);
@@ -572,8 +608,8 @@ function loadPost(data, target_category)
     content.appendChild(wrapper);
   });
 
-  //content.textContent = data.content;
-  buttonCat.textContent = target_category;
+  
+  
   content.style.whiteSpace = "pre-line";
 }
 
@@ -614,5 +650,3 @@ function removePostHash(){  //#contents/blog/blog-1.json
 
   history.pushState(null, null, `${contents}/${category}`);
 }
-
-
