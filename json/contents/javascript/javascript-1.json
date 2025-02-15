@@ -1,1 +1,10 @@
-{ "title": "J", "subTitle": "javascrript-subtitle", "content": "    a  sdfffafafaf" }
+{ 
+    "title": "Javascript, Node.js, Electron의 관계", 
+    "subTitle": "전부 다 Javascript를 쓰니까 헷갈린다.", 
+    "content": [
+        "Javascript\n웹 브라우저에서 실행되는 프로그래밍 언어\n HTML, CSS와 함께 사용해서 웹 페이지를 동적이고 상호작용 가능하게 만들어 준다.",
+        "Node.js\n서버 사이드 Javascript 런타임 환경.\n즉, 웹 서버를 만들고 서버와의 데이터 통신을 처리하는 데 사용된다.\n브라우저에서 실행되는 Javascript와는 달리, Node.js는 서버에서 실행되기 때문에 백엔드 개발에 사용된다.",
+        "Electron\n  데스크톱 애플리케이션을 만들 수 있는 프레임워크\n 웹 기술을 사용해서 데스크톱 앱을 만들 수 있게 해준다.\n 메인 프로세스에서는 Node.js를 사용해서 애플리케이션의 백엔드를 처리.\n 렌더러 프로세스에서는 HTML, CSS, JS를 사용해서 UI를 구성 (프론트엔드)."
+    
+    ]
+}
