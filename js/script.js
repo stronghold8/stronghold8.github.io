@@ -70,7 +70,8 @@ function showSection(element) {     //매개변수를 특정 a로 넘김
   if (targetSection) targetSection.classList.add("active");
 
   // URL 해시 업데이트
-  history.pushState(null, null, `#${targetId}`);
+  const state = { section: targetId};
+  history.pushState(state, null, `#${targetId}`);
 }
 
 // Nav 업데이트 함수 (선택적으로 사용 가능)
