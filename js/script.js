@@ -410,7 +410,8 @@ function showContainer(contentId)
 {
   //const contentId = element.getAttribute("data-target"); //contentId = javascript
   const contentsContainer = document.querySelector(`.contents-container#${contentId}`);
-  contentsContainer.classList.add("active");  
+  contentsContainer.classList.add("active");
+  updateHash("contents", contentId);
 };
 
 function removeContainer()
@@ -530,7 +531,7 @@ function showPost(fileName, target_category)
     .then(data => {
       
       loadPost(data,target_category);
-
+      updateHash("contents", target_category, fileName);
 
       
     })
@@ -684,13 +685,13 @@ function updateHash(section, category = "", filename = "") {
   if (filename) newHash += `/${filename}`;
 
   history.pushState(state, null, newHash);
-  loadContentFromHash(); // 해시 변경 시 UI 업데이트
+  //loadContentFromHash(); // 해시 변경 시 UI 업데이트
 }
 
 window.addEventListener("popstate", (event) => {
   if (event.state) {
     console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
-    loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
+    //loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
   }
 });
 
