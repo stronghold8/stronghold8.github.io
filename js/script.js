@@ -69,9 +69,11 @@ function showSection(element) {     //매개변수를 특정 a로 넘김
   const targetSection = document.getElementById(targetId);
   if (targetSection) targetSection.classList.add("active");
 
-  // URL 해시 업데이트
+  /* URL 해시 업데이트
   const state = { section: targetId};
-  history.pushState(state, null, `#${targetId}`);
+  history.pushState(state, null, `#${targetId}`);*/
+  
+  updateHash(`${targetId}`);
 }
 
 // Nav 업데이트 함수 (선택적으로 사용 가능)
@@ -86,13 +88,33 @@ function updateNav(element) {
   });
 }
 
+/*
 function updateCategoryHash(inputCat){  //inputCat = javascript | python | blog etc
-  history.pushState(null, null, `${window.location.hash}/${inputCat}`);
+  istory.pushState(null, null, `${window.location.hash}/${inputCat}`);
+  let currentHash = window.location.hash.replace("#", ""); // 해시에서 `#` 제거
+  let categories = currentHash ? currentHash.split("/") : []; // `/` 기준으로 나눠 배열 생성
+
+  if (!categories.includes(inputCat)) { // 중복 추가 방지
+    categories.push(inputCat);
+  }
+
+  let newHash = categories.join("/"); // 다시 문자열로 변환
+  history.pushState({ categories }, null, `#${newHash}`); // 상태 저장 및 URL 변경
 }
 
 function updatePostHash(inputPost){
-  history.pushState(null, null, `${window.location.hash}/${inputPost}`);
+  //history.pushState(null, null, `${window.location.hash}/${inputPost}`);
+  let currentHash = window.location.hash.replace("#", ""); // `#` 제거
+  let posts = currentHash ? currentHash.split("/") : []; // `/`로 나누기
+
+  if (!posts.includes(inputPost)) { // 중복 추가 방지
+    posts.push(inputPost);
+  }
+
+  let newHash = posts.join("/"); // 배열을 다시 문자열로 변환
+  history.pushState({ posts }, null, `#${newHash}`);
 }
+  */
 
 
 
@@ -179,7 +201,7 @@ const navTogglerBtn = document.querySelector(".nav-toggler"),
 
 
 
-
+/*
 function loadContentFromHash(){
   const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
     const navCat = hash.split('/')[0];
@@ -402,7 +424,8 @@ function removeContainer()
   {
     contentsContainer.classList.remove("active");
     closePost();
-    history.pushState(null, null, `#contents`);
+    // 🔹 상태 객체 추가해서 history.pushState() 호출
+    //history.pushState({ view: "contents" }, null, "#contents");
   }
 }
 
@@ -649,5 +672,50 @@ function removePostHash(){  //#contents/blog/blog-1.json
   const category = currentHash.split('/')[1];
   const fileName = currentHash.split('/')[2];
 
-  history.pushState(null, null, `${contents}/${category}`);
+  //history.pushState(null, null, `${contents}/${category}`);
 }
+
+/* ============================== Hash Update & Control ==============================*/
+function updateHash(section, category = "", filename = "") {
+  const state = { section, category, filename }; // 객체로 상태 저장
+  let newHash = `#${section}`;
+  
+  if (category) newHash += `/${category}`;
+  if (filename) newHash += `/${filename}`;
+
+  history.pushState(state, null, newHash);
+  loadContentFromHash(); // 해시 변경 시 UI 업데이트
+}
+
+window.addEventListener("popstate", (event) => {
+  if (event.state) {
+    console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
+    loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
+  }
+});
+
+function loadContentFromHash() {
+  let { hash } = window.location;
+  let [section, category, filename] = hash.replace("#", "").split("/");
+
+  // 모든 섹션/카테고리/파일의 active 제거
+  document.querySelectorAll(".section, .category, .filename").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  // 현재 상태에 맞는 요소 활성화
+  //if (section) document.querySelector(`.section[data-section="${section}"]`)?.classList.add("active");
+  if (section) document.querySelector(`#${section}`)?.classList.add("active");
+  if (category) document.querySelector(`.category[data-category="${category}"]`)?.classList.add("active");
+  if (filename) document.querySelector(`.filename[data-filename="${filename}"]`)?.classList.add("active");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  let { hash } = window.location;
+  if (!hash) return;
+
+  let [section, category, filename] = hash.replace("#", "").split("/");
+  history.replaceState({ section, category, filename }, null, hash);
+  loadContentFromHash();
+});
+
