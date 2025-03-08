@@ -656,7 +656,10 @@ function closePost()
   else
   {
     postContainer.classList.remove("active");
-    removePostHash()
+
+    let { hash } = window.location;
+    let [section, category, filename] = hash.replace("#", "").split("/");
+    updateHash(section, category);
   }
 }
 
