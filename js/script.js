@@ -384,7 +384,7 @@ async function loadEducation() {
 
 
 /* ============================================== Contents-Container============================================== */
-//카테고리 별로 컨테이너(HTML섹션)를 로딩하는 기능
+//카테고리 별로 contents-container를 로딩하는 기능
 const contents = document.querySelector("#contents"), //content section으로 접근
   contentsList = contents.querySelectorAll(".content-item.padd-15");  //content-item들을 모두 선택
   
@@ -694,24 +694,47 @@ function updateHash(section, category = "", filename = "") {
 window.addEventListener("popstate", (event) => {
   if (event.state) {
     console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
-    //loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
+    loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
   }
 });
 
+
+// hash = /#contents/blog/blog-1.json
 function loadContentFromHash() {
   let { hash } = window.location;
   let [section, category, filename] = hash.replace("#", "").split("/");
 
   // 모든 섹션/카테고리/파일의 active 제거
-  document.querySelectorAll(".section, .category, .filename").forEach(el => {
+  /*document.querySelectorAll(".section, .category, .filename").forEach(el => {
     el.classList.remove("active");
-  });
+  });*/
 
   // 현재 상태에 맞는 요소 활성화
   //if (section) document.querySelector(`.section[data-section="${section}"]`)?.classList.add("active");
-  if (section) document.querySelector(`#${section}`)?.classList.add("active");
-  if (category) document.querySelector(`.category[data-category="${category}"]`)?.classList.add("active");
-  if (filename) document.querySelector(`.filename[data-filename="${filename}"]`)?.classList.add("active");
+  if (section) {
+    //document.querySelector(`#${section}`)?.classList.add("active");
+    const element = document.querySelector(`#${section}`);
+    if (element && !element.classList.contains("active")) {
+        element.classList.add("active");
+    }
+  }
+  
+  if (category){
+    const element = document.querySelector(`.contents-container#${category}`);
+    if(element && !element.classList.contains("active")){
+      element.classList.add("active");
+    }
+  }
+
+  if (filename){
+    //const element = document.querySelector(`.`);
+    showPost(filename, category);
+  } else {
+    removePost();
+  }
+
+  //if (category) document.querySelector(`.category[data-category="${category}"]`)?.classList.add("active");
+  //if (filename) document.querySelector(`.filename[data-filename="${filename}"]`)?.classList.add("active");
 }
 
 window.addEventListener("DOMContentLoaded", () => {
