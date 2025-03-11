@@ -688,13 +688,15 @@ function updateHash(section, category = "", filename = "") {
   if (filename) newHash += `/${filename}`;
 
   history.pushState(state, null, newHash);
-  //loadContentFromHash(); // 해시 변경 시 UI 업데이트
+  loadContentFromHash(); // 해시 변경 시 UI 업데이트
 }
 
 window.addEventListener("popstate", (event) => {
   if (event.state) {
     console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
     loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
+
+    history.pushState(event.state, null, window.location.hash);
   }
 });
 
