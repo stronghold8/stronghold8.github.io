@@ -61,9 +61,10 @@ function updateBackSection(targetId) {
 // 섹션 표시 함수
 function showSection(element) {     //매개변수를 특정 a로 넘김
   const targetId = element.getAttribute("data-target"); // 특정 a의 data-target으로 대상 식별
-
+  console.log(targetId);
   // 모든 섹션 비활성화
   allSection.forEach(section => section.classList.remove("active"));
+  
 
   // 대상 섹션 활성화
   const targetSection = document.getElementById(targetId);
@@ -73,7 +74,7 @@ function showSection(element) {     //매개변수를 특정 a로 넘김
   const state = { section: targetId};
   history.pushState(state, null, `#${targetId}`);*/
   
-  updateHash(`${targetId}`);
+  updateHash(targetId);
 }
 
 // Nav 업데이트 함수 (선택적으로 사용 가능)
@@ -400,7 +401,7 @@ for (let i = 0; i < contentsList.length; i++) //item개수만큼 반복해서 �
     const contentId = this.getAttribute("data-target"); //contentId = javascript
     showContainer(contentId);
 
-    updateCategoryHash(contentId);
+    
   })
 
   
@@ -510,7 +511,6 @@ for (let i = 0; i < categories.length; i++){
   
         
         showPost(fileName, target_category);
-        updatePostHash(fileName);
       }
     }
   })
@@ -670,14 +670,6 @@ function removePost()
 
 
 
-function removePostHash(){  //#contents/blog/blog-1.json
-  const currentHash = window.location.hash;
-  const contents = currentHash.split('/')[0];
-  const category = currentHash.split('/')[1];
-  const fileName = currentHash.split('/')[2];
-
-  //history.pushState(null, null, `${contents}/${category}`);
-}
 
 /* ============================== Hash Update & Control ==============================*/
 function updateHash(section, category = "", filename = "") {
@@ -687,17 +679,23 @@ function updateHash(section, category = "", filename = "") {
   if (category) newHash += `/${category}`;
   if (filename) newHash += `/${filename}`;
 
-  history.pushState(state, null, newHash);
-  loadContentFromHash(); // 해시 변경 시 UI 업데이트
+  if (window.location.hash !== newHash) { //    중복 방지
+    history.pushState(state, null, newHash);
+  }
+
+  //loadContentFromHash(); // 해시 변경 시 UI 업데이트
 }
 
 window.addEventListener("popstate", (event) => {
-  if (event.state) {
+  /*if (event.state) {
     console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
     loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
 
-    history.pushState(event.state, null, window.location.hash);
-  }
+    //history.pushState(event.state, null, window.location.hash);
+  }*/
+
+
+  
 });
 
 
@@ -726,6 +724,12 @@ function loadContentFromHash() {
     if(element && !element.classList.contains("active")){
       element.classList.add("active");
     }
+  } else {
+    const element = document.querySelector(".contents-container.active");
+    if (element){
+      element.classList.remove("active");
+    }
+    
   }
 
   if (filename){
