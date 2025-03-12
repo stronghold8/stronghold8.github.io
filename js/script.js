@@ -510,17 +510,20 @@ for (let i = 0; i < categories.length; i++){
         const fileName = contentItem.dataset.fileName;
   
         
-        showPost(fileName, target_category);
+        showPost(fileName, target_category);  //이 시점에서 파일 이름이랑 카테고리를 받아 넘김
+        updateHash("contents", target_category, fileName);
+        loadContentFromHash();
       }
+      
     }
   })
 }
 
 
-function showPost(fileName, target_category)
+async function showPost(fileName, target_category)
 {
+  //파일 이름으로 로딩
   if(fileName){
-    openPost();
     fetch(`json/contents/${target_category}/${fileName}`)
     .then(response => {
       if(!response.ok) {
@@ -530,8 +533,8 @@ function showPost(fileName, target_category)
     })
     .then(data => {
       
-      loadPost(data,target_category);
-      updateHash("contents", target_category, fileName);
+      loadPost(data,target_category); //해당 파일 내의 목록을 처리
+      
 
       
     })
@@ -640,12 +643,6 @@ function loadPost(data, target_category)
 
 
 
-function openPost()
-{
-  const postContainer = document.querySelector(`.postGroup .post-container`)
-  postContainer.classList.add("active");
-}
-
 function closePost()
 {
   const postContainer = document.querySelector(".post-container.active");
@@ -682,7 +679,7 @@ function updateHash(section, category = "", filename = "") {
   if (window.location.hash !== newHash) { //    중복 방지
     history.pushState(state, null, newHash);
   }
-
+  
   //loadContentFromHash(); // 해시 변경 시 UI 업데이트
 }
 
@@ -693,6 +690,7 @@ window.addEventListener("popstate", (event) => {
 
     //history.pushState(event.state, null, window.location.hash);
   }*/
+ loadContentFromHash();
 
 
   
@@ -704,15 +702,8 @@ function loadContentFromHash() {
   let { hash } = window.location;
   let [section, category, filename] = hash.replace("#", "").split("/");
 
-  // 모든 섹션/카테고리/파일의 active 제거
-  /*document.querySelectorAll(".section, .category, .filename").forEach(el => {
-    el.classList.remove("active");
-  });*/
 
-  // 현재 상태에 맞는 요소 활성화
-  //if (section) document.querySelector(`.section[data-section="${section}"]`)?.classList.add("active");
   if (section) {
-    //document.querySelector(`#${section}`)?.classList.add("active");
     const element = document.querySelector(`#${section}`);
     if (element && !element.classList.contains("active")) {
         element.classList.add("active");
@@ -733,22 +724,22 @@ function loadContentFromHash() {
   }
 
   if (filename){
-    //const element = document.querySelector(`.`);
-    showPost(filename, category);
-  } else {
-    removePost();
-  }
 
-  //if (category) document.querySelector(`.category[data-category="${category}"]`)?.classList.add("active");
-  //if (filename) document.querySelector(`.filename[data-filename="${filename}"]`)?.classList.add("active");
+    console.log("loadContentFromHash 작동,", filename);
+    showPost(filename, category);
+    const element = document.querySelector(`.postGroup .post-container`);
+    element.classList.add("active");
+    
+
+  } else {
+    const postContainer = document.querySelector(".post-container.active");
+    if (postContainer){
+      postContainer.classList.remove("active");
+    }
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  let { hash } = window.location;
-  if (!hash) return;
-
-  let [section, category, filename] = hash.replace("#", "").split("/");
-  history.replaceState({ section, category, filename }, null, hash);
   loadContentFromHash();
 });
 
