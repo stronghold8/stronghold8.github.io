@@ -11,40 +11,55 @@ var typed = new Typed(".typing",{
 
 
 /* ============================================== Aside ============================================== */
+let backSectionId;
 const nav = document.querySelector(".nav"), //문서의 첫 번째 nav클래스 선택 (하나 밖에 없음)
   navList = nav.querySelectorAll("li"),     //nav클래스 내의 모든 li요소 선택 (nav클래스 안에 있는 것들만 있음)
   allSection = document.querySelectorAll(".section"), //문서의 모든 section클래스 (home 'section', about 'section'들을 선택)
   totalSection = allSection.length;
+  
 
 // 메뉴 클릭 이벤트 등록
 for (let i = 0; i < navList.length; i++) {  //navList의 크기 내에서 이동.
   const a = navList[i].querySelector("a");  //nav의 각 요소는 해당하는 a태그 하나 선택, 그 태그마다 이벤트 설정
   a.addEventListener("click", function (e) {
     e.preventDefault(); // 기본 동작 방지
-    if (this.classList.contains("active"))
-      {
-        removeContainer();
-        return;
-      }  //this = a
+    
+    const targetId = this.getAttribute("data-target"); // 클릭한 메뉴의 data-target 값
+    
+    //우선 active인 섹션의 정보를 찾아서 back-section으로 저장한다.
+
+    let activeTarget;
+    //먼저 active였던 section을 찾아 data-target으로 넘긴다다
+    const activeSection = document.querySelector(".section.active");
+    activeTarget = activeSection.id;
+
+
+
+    /*for (let j = 0; j < navList.length; j++) {
+      if (navList[j].querySelector("a").classList.contains("active")) {   //액티브인 aside의 a요소를 찾고
+        activeTarget = navList[j].querySelector("a").getAttribute("data-target"); //그 요소의 data-target을 저장. activeTarget = about 이런 식으로.
+      }
+    }*/
+    backSectionId = activeTarget;
+    console.log(backSectionId, "이겁니다");
+       
+
+    updateHash(targetId, "", "", activeTarget);
+    loadContentFromHash();
+   
 
     // 이전 섹션에 back-section 클래스 추가
-    for (let j = 0; j < navList.length; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {   //액티브인 aside의 a요소를 찾고
-        const activeTarget = navList[j].querySelector("a").getAttribute("data-target"); //그 요소의 data-target을 저장. activeTarget = about 이런 식으로.
-        updateBackSection(activeTarget); // 이전 섹션에만 back-section 추가
-      }
-      navList[j].querySelector("a").classList.remove("active");
-    }
+    
 
     // 현재 클릭한 메뉴 활성화
-    this.classList.add("active");
-    showSection(this); // 새로운 섹션 활성화  this = a
+    //this.classList.add("active"); //섹션이 아닌 a태그에 active를 추가
+    //showSection(this); // 새로운 섹션 활성화  this = a
 
     // 반응형에서 aside 토글 버튼 처리 (옵션)
     if (window.innerWidth < 1200) {
       asideSectionTogglerBtn();
     }
-    removeContainer()
+    //removeContainer()
   });
 }
 
@@ -146,20 +161,7 @@ customButtons.forEach(button => {
 
 
 
-// 이전 섹션을 back-section으로 설정
-function setBackSection() {
-  // 모든 섹션에서 기존의 back-section 제거
-  allSection.forEach(section => section.classList.remove("back-section"));
 
-  const currentActive = document.querySelector(".section.active");
-  console.log("Current Active Section:", currentActive); // 디버깅 메시지
-  if (currentActive) {
-    currentActive.classList.add("back-section");
-    console.log("Back Section added:", currentActive); // 디버깅 메시지
-  } else {
-    console.warn("No active section found.");
-  }
-}
 
 // 섹션 활성화 함수 (ID로 직접 활성화)
 function showSectionById(targetId) {
@@ -671,12 +673,18 @@ function removePost()
 
 
 /* ============================== Hash Update & Control ==============================*/
-function updateHash(section, category = "", filename = "") {
-  const state = { section, category, filename }; // 객체로 상태 저장
+
+function updateHash(section, category = "", filename = "", backSection = "") {
+  const state = { section, category, filename, backSection }; // 객체로 상태 저장
   let newHash = `#${section}`;
   
   if (category) newHash += `/${category}`;
   if (filename) newHash += `/${filename}`;
+  if (backSection) {
+    console.log(backSection, "이게 state 정보의 backSection이고,")
+    backSectionId = backSection;
+    console.log(backSectionId, "이게 업데이트 된 backSectionId입니다");
+  };
 
   if (window.location.hash !== newHash) { //    중복 방지
     history.pushState(state, null, newHash);
@@ -704,14 +712,30 @@ function loadContentFromHash() {
   let { hash } = window.location;
   let [section, category, filename] = hash.replace("#", "").split("/");
 
+  
+  // 모든 back-section을 초기화
+  if (backSectionId){
+    allSection.forEach(section => section.classList.remove("back-section"));
+    
+    // 새롭게 지정된 섹션에 back-section으로 추가
+    
+    const newBackSection = document.getElementById(backSectionId);
+    if (newBackSection) newBackSection.classList.add("back-section");
+    
+  }
+  
+  
 
   if (section) {
+    //모든 액티브를 제거
+    allSection.forEach(section => section.classList.remove("active"));
+    
     const element = document.querySelector(`#${section}`);
     if (element && !element.classList.contains("active")) {
         element.classList.add("active");
     }
   }
-  
+
   if (category){
     const element = document.querySelector(`.contents-container#${category}`);
     if(element && !element.classList.contains("active")){
