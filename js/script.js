@@ -434,7 +434,7 @@ function removeContainer()
 /* ============================================== Category-inner-boxes ============================================== */
 //카테고리 클릭 시, (HTML섹션이 로딩 후에) 포스트 아이템들을 박스로 만들어서 미리보기로 show
 
-const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python', 'security'];
+const categories = ['javascript', 'data-structure', 'ai', 'java', 'network', 'math', 'blog', 'minecraft', 'chinese', 'japanese', 'cpp', 'python', 'security', 'order'];
 
 for (let i = 0; i < categories.length; i++){
   const category = categories[i];
@@ -574,6 +574,8 @@ function getCategoryName(element){
       return "Python";
     case "security":
       return "Computer Security";
+    case "receipt":
+      return "Receipt";
     
   }
 }
