@@ -33,45 +33,20 @@ for (let i = 0; i < navList.length; i++) {  //navList의 크기 내에서 이동
     const activeSection = document.querySelector(".section.active");
     activeTarget = activeSection.id;
 
-
-
-    /*for (let j = 0; j < navList.length; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {   //액티브인 aside의 a요소를 찾고
-        activeTarget = navList[j].querySelector("a").getAttribute("data-target"); //그 요소의 data-target을 저장. activeTarget = about 이런 식으로.
-      }
-    }*/
     backSectionId = activeTarget;
-    console.log(backSectionId, "이겁니다");
+    console.log(backSectionId, "클릭 이벤트에서 현재 액티브 섹션의 아이디를 반환");
        
-
     updateHash(targetId, "", "", activeTarget);
     loadContentFromHash();
-   
-
-    // 이전 섹션에 back-section 클래스 추가
-    
-
-    // 현재 클릭한 메뉴 활성화
-    //this.classList.add("active"); //섹션이 아닌 a태그에 active를 추가
-    //showSection(this); // 새로운 섹션 활성화  this = a
 
     // 반응형에서 aside 토글 버튼 처리 (옵션)
     if (window.innerWidth < 1200) {
       asideSectionTogglerBtn();
     }
-    //removeContainer()
   });
 }
 
-// back-section 업데이트 함수 (항상 하나만 유지)
-function updateBackSection(targetId) {
-  // 모든 섹션에서 back-section 제거
-  allSection.forEach(section => section.classList.remove("back-section"));
 
-  // 새롭게 지정된 섹션에 back-section 추가
-  const section = document.getElementById(targetId);
-  if (section) section.classList.add("back-section");
-}
 
 // 섹션 표시 함수
 function showSection(element) {     //매개변수를 특정 a로 넘김
@@ -84,10 +59,6 @@ function showSection(element) {     //매개변수를 특정 a로 넘김
   // 대상 섹션 활성화
   const targetSection = document.getElementById(targetId);
   if (targetSection) targetSection.classList.add("active");
-
-  /* URL 해시 업데이트
-  const state = { section: targetId};
-  history.pushState(state, null, `#${targetId}`);*/
   
   updateHash(targetId);
 }
@@ -103,65 +74,6 @@ function updateNav(element) {
     );
   });
 }
-
-/*
-function updateCategoryHash(inputCat){  //inputCat = javascript | python | blog etc
-  istory.pushState(null, null, `${window.location.hash}/${inputCat}`);
-  let currentHash = window.location.hash.replace("#", ""); // 해시에서 `#` 제거
-  let categories = currentHash ? currentHash.split("/") : []; // `/` 기준으로 나눠 배열 생성
-
-  if (!categories.includes(inputCat)) { // 중복 추가 방지
-    categories.push(inputCat);
-  }
-
-  let newHash = categories.join("/"); // 다시 문자열로 변환
-  history.pushState({ categories }, null, `#${newHash}`); // 상태 저장 및 URL 변경
-}
-
-function updatePostHash(inputPost){
-  //history.pushState(null, null, `${window.location.hash}/${inputPost}`);
-  let currentHash = window.location.hash.replace("#", ""); // `#` 제거
-  let posts = currentHash ? currentHash.split("/") : []; // `/`로 나누기
-
-  if (!posts.includes(inputPost)) { // 중복 추가 방지
-    posts.push(inputPost);
-  }
-
-  let newHash = posts.join("/"); // 배열을 다시 문자열로 변환
-  history.pushState({ posts }, null, `#${newHash}`);
-}
-  */
-
-
-
-/*
-        // 버튼 클릭 이벤트 추가
-const customButtons = document.querySelectorAll(".custom-button");
-
-customButtons.forEach(button => {
-  button.addEventListener("click", function () {
-    const targetId = this.getAttribute("data-target"); // 버튼의 data-target 값
-
-    setBackSection();
-
-    // 섹션 활성화
-    showSectionById(targetId);
-
-    // Nav 메뉴 업데이트 (옵션)
-    updateNavById(targetId);
-
-    // URL 해시 업데이트
-    history.pushState(null, null, `#${targetId}`);
-  });
-});
-
-*/
-
-
-
-
-
-
 
 // 섹션 활성화 함수 (ID로 직접 활성화)
 function showSectionById(targetId) {
@@ -184,7 +96,6 @@ function updateNavById(targetId) {
 
 
 
-
 const navTogglerBtn = document.querySelector(".nav-toggler"),
     aside = document.querySelector(".aside");
     navTogglerBtn.addEventListener("click", () => 
@@ -200,71 +111,6 @@ const navTogglerBtn = document.querySelector(".nav-toggler"),
             allSection[i].classList.toggle("open");
         }
     }
-
-
-
-
-/*
-function loadContentFromHash(){
-  const hash = window.location.hash; // 현재 URL의 해시 값 가져오기
-    const navCat = hash.split('/')[0];
-    const contCat = hash.split('/')[1];
-    const fileName = hash.split('/')[2];
-    if (hash) {
-        const target = document.querySelector(navCat);
-        if (target) {
-            // 모든 섹션 초기화
-            allSection.forEach(section => section.classList.remove("active"));
-            // 해시 섹션 활성화
-            target.classList.add("active");
-
-            if(contCat)
-            {
-              showContainer(contCat);
-
-              if(fileName)
-              {
-                showPost(fileName, contCat);
-              }
-            }
-            
-
-            // 네비게이션도 업데이트
-            updateNav(document.querySelector(`a[href="${navCat}"]`));
-        }
-    }
-}
-
-window.addEventListener("load", loadContentFromHash);
-
-window.addEventListener("popstate", () => {
-  loadContentFromHash();
-  console.log(event.state);
-});
-
-
-/*
-function loadContentFromHash() {
-  const hash = window.location.hash;  // #contents/javascript
-  const target = hash.split('/')[1];  // "javascript"
-}
-
-const categoryLinks = document.querySelectorAll('.content-item-inner');
-categoryLinks.forEach(link => {
-  link.addEventListener('click', function () {
-    const targetCategory = this.dataset.target;  // data-target="javascript"
-    window.location.hash = `#contents/${targetCategory}`;  // #contents/javascript
-    loadContentFromHash();  // 해시 값에 맞는 콘텐츠 로드
-  });
-});
-
-// 해시 값이 변경될 때마다 콘텐츠 로드
-window.addEventListener('hashchange', loadContentFromHash);
-
-// 초기 로드 시 해시 값에 맞는 콘텐츠 로드
-loadContentFromHash();
-
-*/
 
 
 /* ============================================== 개인 로그  ============================================== */
@@ -417,21 +263,6 @@ function showContainer(contentId)
   updateHash("contents", contentId);
 };
 
-function removeContainer()
-{
-  const contentsContainer = document.querySelector(".contents-container.active");
-  if(contentsContainer == null)
-  {
-    return;
-  }
-  else
-  {
-    contentsContainer.classList.remove("active");
-    closePost();
-    // 🔹 상태 객체 추가해서 history.pushState() 호출
-    //history.pushState({ view: "contents" }, null, "#contents");
-  }
-}
 
 /* ============================================== Category-inner-boxes ============================================== */
 //카테고리 클릭 시, (HTML섹션이 로딩 후에) 포스트 아이템들을 박스로 만들어서 미리보기로 show
@@ -689,22 +520,8 @@ function updateHash(section, category = "", filename = "", backSection = "") {
   if (window.location.hash !== newHash) { //    중복 방지
     history.pushState(state, null, newHash);
   }
-  
-  //loadContentFromHash(); // 해시 변경 시 UI 업데이트
 }
 
-window.addEventListener("popstate", (event) => {
-  /*if (event.state) {
-    console.log("🔄 뒤로 가기 감지! 이전 상태:", event.state);
-    loadContentFromHash(); // 뒤로 가기 시 UI 업데이트
-
-    //history.pushState(event.state, null, window.location.hash);
-  }*/
- loadContentFromHash();
-
-
-  
-});
 
 
 // hash = /#contents/blog/blog-1.json
@@ -724,8 +541,6 @@ function loadContentFromHash() {
     
   }
   
-  
-
   if (section) {
     //모든 액티브를 제거
     allSection.forEach(section => section.classList.remove("active"));
@@ -769,3 +584,8 @@ window.addEventListener("DOMContentLoaded", () => {
   loadContentFromHash();
 });
 
+window.addEventListener("popstate", (event) => {
+  console.log(event.state);
+  backSectionId = event.state.backSection;
+  loadContentFromHash();
+});
