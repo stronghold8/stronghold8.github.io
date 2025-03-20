@@ -525,57 +525,120 @@ function updateHash(section, category = "", filename = "", backSection = "") {
 
 
 // hash = /#contents/blog/blog-1.json
-function loadContentFromHash() {
+function loadContentFromHash(isPop = "") {
+  const _isPop = isPop;
+  console.log(_isPop);
+  console.log(history.state);
+
   let { hash } = window.location;
   let [section, category, filename] = hash.replace("#", "").split("/");
 
+  if(_isPop == "isPop"
+
+  ){
+    //=========================isPop일 경우=================================//
+    // 모든 back-section을 초기화
+    if (section) {
+      //모든 액티브를 제거
+      allSection.forEach(section => section.classList.remove("active"));
+      
+      const element = document.querySelector(`#${section}`);
+      if (element && !element.classList.contains("active")) {
+          element.classList.add("active");
+      }
+    }
+    
+    
+    
+    if (backSectionId){
+      allSection.forEach(section => section.classList.remove("back-section"));
+      
+      // 새롭게 지정된 섹션에 back-section으로 추가
+      
+      const newBackSection = document.getElementById(backSectionId);
+      if (newBackSection) newBackSection.classList.add("back-section");
+      
+    }
+    
+    
   
-  // 모든 back-section을 초기화
-  if (backSectionId){
-    allSection.forEach(section => section.classList.remove("back-section"));
-    
-    // 새롭게 지정된 섹션에 back-section으로 추가
-    
-    const newBackSection = document.getElementById(backSectionId);
-    if (newBackSection) newBackSection.classList.add("back-section");
-    
-  }
-  
-  if (section) {
-    //모든 액티브를 제거
-    allSection.forEach(section => section.classList.remove("active"));
-    
-    const element = document.querySelector(`#${section}`);
-    if (element && !element.classList.contains("active")) {
+    if (category){
+      const element = document.querySelector(`.contents-container#${category}`);
+      if(element && !element.classList.contains("active")){
         element.classList.add("active");
+      }
+    } else {
+      const element = document.querySelector(".contents-container.active");
+      if (element){
+        element.classList.remove("active");
+      }
+      
     }
-  }
-
-  if (category){
-    const element = document.querySelector(`.contents-container#${category}`);
-    if(element && !element.classList.contains("active")){
+  
+    if (filename){
+    
+      console.log("loadContentFromHash 작동,", filename);
+      showPost(filename, category);
+      const element = document.querySelector(`.postGroup .post-container`);
       element.classList.add("active");
-    }
-  } else {
-    const element = document.querySelector(".contents-container.active");
-    if (element){
-      element.classList.remove("active");
-    }
+      
     
+    } else {
+      const postContainer = document.querySelector(".post-container.active");
+      if (postContainer){
+        postContainer.classList.remove("active");
+      }
+    }
   }
+  else{
+    //==========================isPop이 아닐 경우============================================//
+    // 모든 back-section을 초기화
+    if (backSectionId){
+      allSection.forEach(section => section.classList.remove("back-section"));
 
-  if (filename){
+      // 새롭게 지정된 섹션에 back-section으로 추가
 
-    console.log("loadContentFromHash 작동,", filename);
-    showPost(filename, category);
-    const element = document.querySelector(`.postGroup .post-container`);
-    element.classList.add("active");
-    
+      const newBackSection = document.getElementById(backSectionId);
+      if (newBackSection) newBackSection.classList.add("back-section");
 
-  } else {
-    const postContainer = document.querySelector(".post-container.active");
-    if (postContainer){
-      postContainer.classList.remove("active");
+    }
+
+    if (section) {
+      //모든 액티브를 제거
+      allSection.forEach(section => section.classList.remove("active"));
+
+      const element = document.querySelector(`#${section}`);
+      if (element && !element.classList.contains("active")) {
+          element.classList.add("active");
+      }
+    }
+
+    if (category){
+      const element = document.querySelector(`.contents-container#${category}`);
+      if(element && !element.classList.contains("active")){
+        element.classList.add("active");
+      }
+    } else {
+      const element = document.querySelector(".contents-container.active");
+      if (element){
+        element.classList.remove("active");
+      }
+
+    }
+
+    if (filename){
+
+      console.log("loadContentFromHash 작동,", filename);
+      showPost(filename, category);
+      const element = document.querySelector(`.postGroup .post-container`);
+      element.classList.add("active");
+
+
+    } else {
+      const postContainer = document.querySelector(".post-container.active");
+      if (postContainer){
+        postContainer.classList.remove("active");
+      }
     }
   }
 }
@@ -587,5 +650,5 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("popstate", (event) => {
   console.log(event.state);
   backSectionId = event.state.backSection;
-  loadContentFromHash();
+  loadContentFromHash("isPop");
 });
