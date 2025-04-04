@@ -533,9 +533,7 @@ function loadContentFromHash(isPop = "") {
   let { hash } = window.location;
   let [section, category, filename] = hash.replace("#", "").split("/");
 
-  if(_isPop == "isPop"
-
-  ){
+  if(_isPop == "isPop"){
     //=========================isPop일 경우=================================//
     // 모든 back-section을 초기화
     if (section) {
