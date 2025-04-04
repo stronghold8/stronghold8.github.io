@@ -1,4 +1,5 @@
 [
+	{ "title": "괴로워해라", "date": "2025-04-04", "file-name": "blog-6.json", "icon": "arlecchino3.svg"},
 	{ "title": "코드는 철근과도 같다", "date": "2025-03-10", "file-name": "blog-5.json", "icon": "arlecchino3.svg"},
 	{ "title": "오사카 여행", "date": "2025-03-09", "file-name": "blog-4.json", "icon": "osakaCastle.svg"},
 	{ "title": "포스트 영역 완전 구현 완료", "date": "2025-02-08", "file-name": "blog-3.json", "icon": "zoro.svg"},
