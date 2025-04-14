@@ -1,3 +1,4 @@
-This is a personal blog page of Xianyun01
+This is a knowledge base created by Arlecchino01.
+Stronghold8 is just an owner account.
 
 https://stronghold8.github.io/
